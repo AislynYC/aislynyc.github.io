@@ -408,3 +408,19 @@ ul {
     padding: 0;
     list-style: none;
 }
+
+/* Links +
+   ========================================================================== */
+
+/**
+ * Remove default link styles, and color setting in different stages.
+ */
+
+a,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+    color: black;
+}
