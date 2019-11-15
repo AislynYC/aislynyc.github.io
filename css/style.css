@@ -26,6 +26,7 @@ body {
 .menu-btn {
     position: absolute;
     right: 3em;
+    cursor: pointer;
 }
 
 /* Nav */
@@ -40,12 +41,34 @@ body {
     padding: 20px 60px 20px 0;
 }
 
+#nav-card {
+    display: none;
+    position: fixed;
+    background-color: white;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.mobile-nav-item {
+    padding: 18px 10px;
+}
+
+#menu-close-btn {
+    width: 2em;
+    float: right;
+    margin: 5px;
+    cursor: pointer;
+}
+
 /* Banner */
 .banner {
     background-color: rgb(196, 219, 238);
     width: 100%;
     height: 200px;
     text-align: center;
+    cursor: pointer;
 }
 
 .banner h1 {
@@ -77,6 +100,10 @@ body {
     margin-top: 0;
 }
 
+#additional-row {
+    display: none;
+}
+
 /* Button */
 .btn {
     background-color: rgb(220, 248, 255);
@@ -84,6 +111,7 @@ body {
     text-align: center;
     width: 120px;
     padding: 10px;
+    cursor: pointer;
 }
 
 /* Media Queries */
@@ -103,6 +131,10 @@ body {
 }
 
 @media(min-width:800px) {
+    #nav-card {
+        display: none;
+    }
+
     .menu-btn {
         display: none;
     }
