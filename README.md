@@ -1,4 +1,4 @@
-# Web Front-End Class 2019 Summer
+# Web Front-End Class 2019 Winter
 
 ## Outline
 
