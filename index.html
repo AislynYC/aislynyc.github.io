@@ -1,77 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<html>
+  <head>
+    <meta charset="UTF-8" />
     <title>Remote Learning Assignment</title>
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/style.css">
-</head>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 
-<body>
-    <div class="container"></div>
-    <header class="main-header">
-        <div class="header-top">
-            <span class="title">Website Title / Logo</span>
-            <img class="menu-btn" id="main-menu-btn" src="./img/iconfinder_menu_2561466.svg" alt="menu">
-        </div>
-        <ul class="main-nav">
-            <li class="nav-item"><a href="./week-2/week-2.html">week-2 assignments</a></li>
-            <li class="nav-item"><a href="#">Item 2</a></li>
-            <li class="nav-item"><a href="#">Item 3</a></li>
-            <li class="nav-item"><a href="#">Item 4</a></li>
-        </ul>
-        <div class="float-card" id="nav-card">
-            <img id="menu-close-btn" src="./img/iconfinder_icon-close_211652.svg" alt="close">
-            <ul id="mobile-nav">
-                <li class="mobile-nav-item"><a href="./week-2/week-2.html">week-2 assignments</a></li>
-                <li class="mobile-nav-item"><a href="#">Item 2</a></li>
-                <li class="mobile-nav-item"><a href="#">Item 3</a></li>
-                <li class="mobile-nav-item"><a href="#">Item 4</a></li>
-            </ul>
-        </div>
-        </nav>
-    </header>
-    <div class="banner" id="main-banner">
-        <h1 id="welcome-msg">Welcome Message</h1>
-    </div>
-    <div class="section-title">
-        <h2>Section Title</h2>
-    </div>
-    <div class="row">
-        <div class="col">
-            <p>Content Box 1</p>
-        </div>
-        <div class="col">
-            <p>Content Box 2</p>
-        </div>
-        <div class="col">
-            <p>Content Box 3</p>
-        </div>
-        <div class="col">
-            <p>Content Box 4</p>
-        </div>
-    </div>
-    <div class="btn" id="action-btn">
-        <span>Call to Action</span>
-    </div>
-    <div class="row" id="additional-row">
-        <div class="col">
-            <p>Content Box 5</p>
-        </div>
-        <div class="col">
-            <p>Content Box 6</p>
-        </div>
-        <div class="col">
-            <p>Content Box 7</p>
-        </div>
-        <div class="col">
-            <p>Content Box 8</p>
-        </div>
-    </div>
-    <script src="./js/assignment4Week2.js"></script>
-</body>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
 
+  <body>
+    <div id="root"></div>
+    <script type="text/babel" src="./app.js"></script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this section for a production-ready setup with JSX:
+      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+      In a larger project, you can use an integrated toolchain that includes JSX instead:
+      https://reactjs.org/docs/create-a-new-react-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      https://reactjs.org/docs/react-without-jsx.html
+    -->
+  </body>
 </html>
