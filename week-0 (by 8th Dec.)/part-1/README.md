@@ -1,4 +1,4 @@
-# Week 1 Part 1
+# Week 0 Part 1
 
 ## Learn Git and GitHub
 

@@ -1,4 +1,4 @@
-# Week 3 Part 6
+# Week 3 Part 3
 
 ## Assignment
 
