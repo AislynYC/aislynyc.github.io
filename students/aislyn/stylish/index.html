@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Stylish</title>
-    <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <div class="container">
@@ -17,7 +17,7 @@
             <img src="./images/search.png" alt="Search" />
           </div>
         </div>
-        <nav>
+        <nav class="mobile">
           <ul class="main-nav">
             <li><a href="#">女裝</a></li>
             <div class="divider">|</div>
@@ -31,55 +31,151 @@
         </div>
       </header>
       <div class="row">
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
-        <img
-          class="col"
-          src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img"
-        />
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
+        <div class="col">
+          <img src="https://fakeimg.pl/153x204/aaaaaa/?text=Product-img" />
+          <div class="color-tags-area">
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/000000/?text=c"
+            />
+            <img
+              class="color-tag"
+              src="https://fakeimg.pl/12x12/c49871/?text=c"
+            />
+          </div>
+          <div class="product-name">後鬆緊牛仔落地寬褲</div>
+          <div class="product-price">TWD.590</div>
+        </div>
       </div>
       <div class="mobile-tool">
-        <a href="#"><img src="./images/cart-mobile.png" alt="cart" />購物車</a>
-        <a href="#"
-          ><img src="./images/member-mobile.png" alt="member" />會員</a
-        >
+        <a href="#" class="mobile-tool-btn">
+          <div class="mobile-tool-wrap">
+            <img
+              class="mobile-tool-logo"
+              src="./images/cart-mobile.png"
+              alt="cart"
+            />
+            <span class="mobile-tool-tag">購物車</span>
+          </div>
+        </a>
+        <div class="divider" id="mobile-tool-divider">|</div>
+        <a href="#" class="mobile-tool-btn">
+          <div class="mobile-tool-wrap">
+            <img
+              class="mobile-tool-logo"
+              src="./images/member-mobile.png"
+              alt="member"
+            />
+            <span class="mobile-tool-tag">會員</span>
+          </div>
+        </a>
       </div>
       <div class="main-footer">
-        <div class="local-link">
-          <ul>
-            <li><a href="#">關於Stylish</a></li>
-            <li><a href="#">服務條款</a></li>
-            <li><a href="#">隱私政策</a></li>
-            <li><a href="#">聯絡我們</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-          <div class="external-link">
-            <img src="./images/line.png" alt="Line" />
-            <img src="./images/twitter.png" alt="Twitter" />
-            <img src="./images/facebook.png" alt="Facebook" />
+        <div class="footer-row">
+          <div class="footer-col local-link">
+            <ul>
+              <li><a href="#">關於Stylish</a></li>
+              <li><a href="#">服務條款</a></li>
+              <li><a href="#">隱私政策</a></li>
+            </ul>
           </div>
-          <div class="copyright">
-            <p>&copy; 2018. All rights reserved.</p>
-            <p></p>
+          <div class="footer-col local-link">
+            <ul>
+              <li><a href="#">聯絡我們</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
           </div>
+          <div class="footer-col external-link">
+            <img class="external-logo" src="./images/line.png" alt="Line" />
+            <img
+              class="external-logo"
+              src="./images/twitter.png"
+              alt="Twitter"
+            />
+            <img
+              class="external-logo"
+              src="./images/facebook.png"
+              alt="Facebook"
+            />
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2018. All rights reserved.</p>
         </div>
       </div>
     </div>
