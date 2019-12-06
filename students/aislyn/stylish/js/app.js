@@ -24,13 +24,20 @@ function render(data) {
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
     productDiv.className = 'col';
+
     const drawColorBox = item => {
+      let colorArea = document.createElement('div');
+      colorArea.className = 'color-tags-area';
       item.colors.forEach(color => {
         let colorDiv = document.createElement('div');
         colorDiv.className = 'color-tag';
         colorDiv.style.backgroundColor = color.code;
+        colorArea.appendChild(colorDiv);
       });
+
+      console.log(colorArea);
     };
+
     let template = `
             <img
               class="product-pic"
