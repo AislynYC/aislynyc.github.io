@@ -28,14 +28,15 @@ function render(data) {
     const drawColorBox = item => {
       let colorArea = document.createElement('div');
       colorArea.className = 'color-tags-area';
+
       item.colors.forEach(color => {
         let colorDiv = document.createElement('div');
         colorDiv.className = 'color-tag';
-        colorDiv.style.backgroundColor = color.code;
+        colorDiv.title = color.name;
+        colorDiv.style.backgroundColor = '#' + color.code;
         colorArea.appendChild(colorDiv);
       });
-
-      console.log(colorArea);
+      return colorArea;
     };
 
     let template = `
@@ -43,8 +44,8 @@ function render(data) {
               class="product-pic"
               src=${item.main_image}
             />
-            <div class="color-tags-area">
-                ${drawColorBox(item)}
+            <div class="color-tags-wrap">
+                ${drawColorBox(item).innerHTML}
             </div>
             <div class="product-name">${item.title}</div>
             <div class="product-price">TWD.${item.price}</div>
