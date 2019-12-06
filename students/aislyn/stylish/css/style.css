@@ -24,6 +24,11 @@ html {
   padding: 4px 0;
 }
 
+.no-result {
+  padding-top: 20px;
+  font-size: 1.2rem;
+}
+
 /* NAV */
 .main-nav {
   background-color: #313538;
@@ -146,11 +151,6 @@ html {
   height: 44px;
   font-size: 1.14rem;
   line-height: 44px;
-}
-
-#mobile-tool-divider {
-  color: #828282;
-  font-size: 1.5rem;
 }
 
 /*************** Footer ***************/
@@ -314,6 +314,7 @@ html {
     position: absolute;
     right: 10px;
     top: -2px;
+    cursor: pointer;
   }
 
   .header-tool-btn {

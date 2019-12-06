@@ -3,6 +3,7 @@ const logoBtn = document.getElementsByClassName('logo')[0];
 const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
+const searchBtn = document.getElementById('search-icon');
 
 // GET Product List
 
@@ -88,7 +89,7 @@ manBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
   getProductList(
     'https://api.appworks-school.tw/api/1.0/products/men',
-    function(response) {
+    response => {
       render(response);
     }
   );
@@ -98,14 +99,14 @@ accBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
   getProductList(
     'https://api.appworks-school.tw/api/1.0/products/accessories',
-    function(response) {
+    response => {
       render(response);
     }
   );
 });
 
 //Search & GET
-const search = () => {
+const search = callback => {
   const xhr = new XMLHttpRequest();
   const inputValue = document.getElementById('search-input').value;
   const url =
@@ -115,13 +116,21 @@ const search = () => {
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        //wait to update
-        document.getElementById('').innerHTML = xhr.responseText;
+        if (xhr.responseText != '{"data":[]}') {
+          callback(xhr.responseText);
+        } else {
+          rowDiv.innerHTML = '<div class="no-result">無相關商品</div>';
+        }
       } else {
-        alert('[' + xhr.status + '] ' + xhr.statusText);
+        alert(`[${xhr.status}] ${xhr.statusText}`);
       }
     }
   };
   xhr.open('GET', url);
   xhr.send();
 };
+
+searchBtn.addEventListener('click', () => {
+  rowDiv.innerHTML = '';
+  search(render);
+});
