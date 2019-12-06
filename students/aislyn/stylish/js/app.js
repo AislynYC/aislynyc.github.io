@@ -21,15 +21,24 @@ function ajax(src, callback) {
 
 function render(data) {
   const dataObj = JSON.parse(data).data;
-  Object.values(dataObj).forEach(function(item) {
+  Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
     productDiv.className = 'col';
+    const drawColorBox = item => {
+      item.colors.forEach(color => {
+        let colorDiv = document.createElement('div');
+        colorDiv.className = 'color-tag';
+        colorDiv.style.backgroundColor = color.code;
+      });
+    };
     let template = `
             <img
               class="product-pic"
               src=${item.main_image}
             />
-            <div class="color-tags-area"></div>
+            <div class="color-tags-area">
+                ${drawColorBox(item)}
+            </div>
             <div class="product-name">${item.title}</div>
             <div class="product-price">TWD.${item.price}</div>
           `;
