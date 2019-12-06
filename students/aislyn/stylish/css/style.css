@@ -109,6 +109,8 @@ html {
   display: inline-block;
   width: 12px;
   height: 12px;
+  margin-right: 6px;
+  cursor: pointer;
 }
 
 /*************** Mobile Tool ***************/
@@ -222,6 +224,11 @@ html {
   .col {
     width: 250px;
   }
+
+  .color-tag {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /************==== Media Queries =====***********/
@@ -332,6 +339,11 @@ html {
 
   .col {
     width: 360px;
+  }
+
+  .color-tag {
+    width: 24px;
+    height: 24px;
   }
 
   /* footer */
