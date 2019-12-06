@@ -199,6 +199,10 @@ html {
   .logo {
     height: 50px;
   }
+
+  .search {
+    padding: 20px 0;
+  }
   .main-banner {
     height: 300px;
     background-size: auto 300px;
