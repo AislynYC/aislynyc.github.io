@@ -13,6 +13,7 @@ html {
   height: 20px;
   margin: 0 auto;
   padding: 16px 0;
+  display: block;
 }
 
 .search {
@@ -32,12 +33,18 @@ html {
 
 .main-nav li {
   font-size: 1.14rem;
+  padding: 13px 0 15px;
+  text-align: center;
 }
 
-.main-nav li {
-  padding: 13px 0 15px;
+.main-nav a {
+  display: inline-block;
   width: calc(100vw / 3);
-  text-align: center;
+  border-left: 1px solid #828282;
+}
+
+.main-nav li:nth-child(1) a {
+  border: none;
 }
 
 .main-nav a,
@@ -54,11 +61,13 @@ html {
 }
 /* Banner */
 
-.main-banner img {
-  display: block;
+.main-banner {
+  height: 185px;
   width: 100%;
-  background-size: 360px 185px;
-  background-position: center;
+  background-image: url('https://fakeimg.pl/1920x500/fbe3b9/?text=Slider(show more characters to observe width)');
+  background-size: auto 185px;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
 /*************** Product-IMG Area ***************/
@@ -98,7 +107,7 @@ html {
 /*************** Mobile Tool ***************/
 .mobile-tool {
   position: fixed;
-  top: calc(100vh - 60px);
+  bottom: 0;
   z-index: 2;
   background-color: #313538;
   display: flex;
@@ -107,6 +116,11 @@ html {
 
 .mobile-tool-btn {
   width: calc(100vw / 2);
+  border-left: 1px solid #828282;
+}
+
+.mobile-tool-btn:nth-child(1) {
+  border: none;
 }
 
 .mobile-tool-wrap {
@@ -139,6 +153,7 @@ html {
 }
 
 .wrap {
+  width: 100%;
   display: flex;
   justify-content: space-around;
 }
@@ -180,7 +195,12 @@ html {
   margin-top: 7px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 680px) {
+  .main-banner {
+    height: 300px;
+    background-size: auto 300px;
+  }
+
   .row {
     width: 80%;
   }
@@ -193,15 +213,11 @@ html {
 /************==== Media Queries =====***********/
 @media (min-width: 1024px) {
   /* Non-mobile setting */
-  /* .mobile {
+  .mobile-tool {
     display: none;
   }
 
-  .non-mobile {
-    display: block;
-  } */
-
-  .mobile-tool {
+  .search {
     display: none;
   }
 
@@ -209,33 +225,33 @@ html {
   .logo {
     height: 48px;
     vertical-align: top;
-    padding: 26px 15px 26px 5%;
+    padding: 26px 20px;
     margin: 0;
   }
 
   .main-header {
-    height: 100px;
-    position: relative;
+    display: flex;
+    /* height: 100px;
+    position: relative; */
   }
 
   .main-nav {
     background-color: white;
     height: 100px;
-    line-height: 100px;
-  }
-
-  .main-nav .divider {
-    line-height: 100px;
   }
 
   .main-nav li {
-    padding: 0;
-    width: 90px;
     height: 100px;
+    padding: 50px 0;
+  }
+
+  .main-nav a {
+    width: calc(100vw / 8);
   }
 
   .main-nav a span {
-    margin-left: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
   }
   .main-nav a,
   .main-nav a:visited {
@@ -260,7 +276,7 @@ html {
     padding: 5px 5px 5px 20px;
     width: 240px;
     position: relative;
-    margin-right: 42px;
+    margin-right: 30px;
   }
 
   .non-mobile-search input {
@@ -269,6 +285,7 @@ html {
     height: 30px;
     position: absolute;
     top: 1px;
+    outline: none;
   }
 
   #search-icon {
@@ -286,6 +303,12 @@ html {
   #horizontal-divider {
     background-color: #313538;
     height: 40px;
+  }
+
+  /* banner */
+  .main-banner {
+    height: 500px;
+    background-size: auto 500px;
   }
 
   /* product-img area */
@@ -355,13 +378,10 @@ html {
 }
 
 @media (min-width: 1400px) {
-  .main-nav a span {
-    margin-left: 10%;
-    margin-right: 10%;
+  .main-nav a {
+    width: calc(100vw / 8);
   }
-  .main-nav li {
-    width: 134px;
-  }
+
   .header-tool-btn {
     width: 44px;
     margin-right: 5%;
