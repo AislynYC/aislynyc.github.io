@@ -4,10 +4,12 @@ const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
 
+// GET Product List
+
 const getProductList = (src, callback) => {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', src);
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         callback(xhr.responseText);
@@ -55,17 +57,18 @@ const render = data => {
   });
 };
 
-getProductList('https://api.appworks-school.tw/api/1.0/products/all', function(
-  response
-) {
-  render(response);
-});
+getProductList(
+  'https://api.appworks-school.tw/api/1.0/products/all',
+  response => {
+    render(response);
+  }
+);
 
 logoBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
   getProductList(
     'https://api.appworks-school.tw/api/1.0/products/all',
-    function(response) {
+    response => {
       render(response);
     }
   );
@@ -75,7 +78,7 @@ womanBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
   getProductList(
     'https://api.appworks-school.tw/api/1.0/products/women',
-    function(response) {
+    response => {
       render(response);
     }
   );
@@ -100,3 +103,25 @@ accBtn.addEventListener('click', () => {
     }
   );
 });
+
+//Search & GET
+const search = () => {
+  const xhr = new XMLHttpRequest();
+  const inputValue = document.getElementById('search-input').value;
+  const url =
+    'https://api.appworks-school.tw/api/1.0/products/search?keyword=' +
+    inputValue;
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        //wait to update
+        document.getElementById('').innerHTML = xhr.responseText;
+      } else {
+        alert('[' + xhr.status + '] ' + xhr.statusText);
+      }
+    }
+  };
+  xhr.open('GET', url);
+  xhr.send();
+};
