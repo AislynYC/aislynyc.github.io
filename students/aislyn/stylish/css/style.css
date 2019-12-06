@@ -196,6 +196,9 @@ html {
 }
 
 @media (min-width: 680px) {
+  .logo {
+    height: 50px;
+  }
   .main-banner {
     height: 300px;
     background-size: auto 300px;
