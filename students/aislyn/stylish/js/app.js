@@ -4,7 +4,7 @@ const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
 
-function ajax(src, callback) {
+const getProductList = (src, callback) => {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', src);
   xhr.onreadystatechange = function() {
@@ -17,9 +17,9 @@ function ajax(src, callback) {
     }
   };
   xhr.send();
-}
+};
 
-function render(data) {
+const render = data => {
   const dataObj = JSON.parse(data).data;
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
@@ -53,44 +53,50 @@ function render(data) {
     productDiv.innerHTML = template;
     rowDiv.appendChild(productDiv);
   });
-}
+};
 
-ajax('https://api.appworks-school.tw/api/1.0/products/all', function(response) {
+getProductList('https://api.appworks-school.tw/api/1.0/products/all', function(
+  response
+) {
   render(response);
 });
 
 logoBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  ajax('https://api.appworks-school.tw/api/1.0/products/all', function(
-    response
-  ) {
-    render(response);
-  });
+  getProductList(
+    'https://api.appworks-school.tw/api/1.0/products/all',
+    function(response) {
+      render(response);
+    }
+  );
 });
 
 womanBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  ajax('https://api.appworks-school.tw/api/1.0/products/women', function(
-    response
-  ) {
-    render(response);
-  });
+  getProductList(
+    'https://api.appworks-school.tw/api/1.0/products/women',
+    function(response) {
+      render(response);
+    }
+  );
 });
 
 manBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  ajax('https://api.appworks-school.tw/api/1.0/products/men', function(
-    response
-  ) {
-    render(response);
-  });
+  getProductList(
+    'https://api.appworks-school.tw/api/1.0/products/men',
+    function(response) {
+      render(response);
+    }
+  );
 });
 
 accBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  ajax('https://api.appworks-school.tw/api/1.0/products/accessories', function(
-    response
-  ) {
-    render(response);
-  });
+  getProductList(
+    'https://api.appworks-school.tw/api/1.0/products/accessories',
+    function(response) {
+      render(response);
+    }
+  );
 });
