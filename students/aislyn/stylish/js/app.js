@@ -3,12 +3,9 @@ const logoBtn = document.getElementsByClassName('logo')[0];
 const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
-const searchBtn = document.getElementById('search-icon');
-const searchMobileBtn = document.getElementById('search-icon-mobile');
-const nonMobile = document.getElementsByClassName('non-mobile-tool')[0];
-const headerToolBtn = document.getElementsByClassName('header-tool-btn');
-const searchPanel = document.getElementsByClassName('non-mobile-search')[0];
-const searchInput = document.getElementById('searchInput');
+const searchInput = document.getElementById('search-input');
+const searchPanel = document.getElementsByClassName('search-panel')[0];
+const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 let nextPage = null;
 let currentCategory = '';
 
@@ -127,8 +124,11 @@ const search = callback => {
         if (xhr.responseText != '{"data":[]}') {
           callback(xhr.responseText);
         } else {
-          rowDiv.innerHTML = '<div class="no-result">無相關商品</div>';
+          rowDiv.innerHTML =
+            '<div class="no-result">搜尋結果：無相關商品</div>';
         }
+      } else if (xhr.status === 400) {
+        rowDiv.innerHTML = '<div class="no-result">搜尋結果：無相關商品</div>';
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -138,7 +138,7 @@ const search = callback => {
   xhr.send();
 };
 
-searchBtn.addEventListener('click', () => {
+searchInput.addEventListener('input', e => {
   if (searchInput !== null) {
     rowDiv.innerHTML = '';
     search(render);
@@ -148,10 +148,12 @@ searchBtn.addEventListener('click', () => {
 });
 
 //for mobile search
-searchMobileBtn.addEventListener('click', () => {
+searchInput.addEventListener('click', () => {
   console.log('cue');
-  searchPanel.style.display = 'block';
-  searchMobileBtn.style.display = 'none';
+  searchPanel.style.width = '350px';
+  searchInput.style.border = 'solid 1px #979797';
+  searchInput.style.borderRadius = '30px';
+  headerTool.classList.add('header-tools');
 });
 
 //Scroll to Next Page (Infinite Scroll)
