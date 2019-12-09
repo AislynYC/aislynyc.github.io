@@ -50,6 +50,7 @@ const render = data => {
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
     productDiv.className = 'col';
+
     // Color Box rendering
     const drawColorBox = item => {
       let colorArea = document.createElement('div');
@@ -78,6 +79,8 @@ const render = data => {
           `;
     productDiv.innerHTML = template;
     rowDiv.appendChild(productDiv);
+    //Loading
+    isLoading = false;
   });
 };
 
@@ -131,8 +134,6 @@ const search = callback => {
           rowDiv.innerHTML =
             '<div class="no-result">搜尋結果：無相關商品</div>';
         }
-      } else if (xhr.status === 400) {
-        rowDiv.innerHTML = '<div class="no-result">搜尋結果：無相關商品</div>';
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -143,11 +144,9 @@ const search = callback => {
 };
 
 searchInput.addEventListener('input', () => {
-  if (searchInput !== '' || searchInput !== null) {
+  if (searchInput.value.trim() != '') {
     rowDiv.innerHTML = '';
     search(render);
-  } else {
-    alert('請輸入搜尋關鍵字');
   }
 });
 
@@ -161,12 +160,17 @@ searchInput.addEventListener('click', () => {
 
 //Scroll to Next Page (Infinite Scroll)
 
+let isLoading = false;
+
 window.addEventListener('scroll', () => {
+  console.log(isLoading);
   if (
     document.documentElement.scrollTop + window.innerHeight + 61 >=
       document.body.offsetHeight &&
-    nextPage !== null
+    nextPage !== null &&
+    isLoading === false
   ) {
+    isLoading = true;
     getProductList(currentCategory, nextPage, response => {
       render(response);
     });
