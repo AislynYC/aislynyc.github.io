@@ -134,3 +134,14 @@ searchBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
   search(render);
 });
+
+//Scroll to Next Page (Infinite Scroll)
+
+window.addEventListener('scroll', () => {
+  if (
+    document.documentElement.scrollTop +
+      document.body.getBoundingClientRect().bottom ===
+    document.body.offsetHeight
+  ) {
+  }
+});
