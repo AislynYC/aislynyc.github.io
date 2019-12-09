@@ -17,13 +17,49 @@ html {
   cursor: pointer;
 }
 
-.search {
+/* Search */
+#search-icon-mobile {
   position: absolute;
   right: 10px;
   top: 0;
   padding: 4px 0;
+  cursor: pointer;
+}
+.non-mobile-search {
+  box-sizing: border-box;
+  border: 1px solid #979797;
+  border-radius: 25px;
+  padding: 5px 5px 5px 20px;
+  width: 350px;
+  height: 40px;
+  position: relative;
+  margin-right: 30px;
 }
 
+.non-mobile-search input {
+  border: none;
+  width: 80%;
+  height: 90%;
+  position: absolute;
+  top: 1px;
+  outline: none;
+}
+
+#search-icon {
+  height: 40px;
+  position: absolute;
+  right: 10px;
+  top: -2px;
+  cursor: pointer;
+}
+
+.non-mobile-tool {
+  display: flex;
+  position: absolute;
+  padding: 30px 0;
+  top: -23px;
+  right: -25px;
+}
 .no-result {
   padding-top: 20px;
   font-size: 1.2rem;
@@ -62,7 +98,8 @@ html {
   color: white;
 }
 
-.non-mobile-tool {
+.non-mobile-search,
+.header-tool-btn {
   display: none;
 }
 /* Banner */
@@ -205,6 +242,7 @@ html {
   margin-top: 7px;
 }
 
+/************==== Media Queries =====***********/
 @media (min-width: 680px) {
   html {
     font-size: 16px;
@@ -214,8 +252,15 @@ html {
     height: 50px;
   }
 
-  .search {
+  #search-icon-mobile {
     padding: 20px 0;
+  }
+
+  .non-mobile-tool {
+    top: -10px;
+  }
+  .non-mobile-search {
+    height: 50px;
   }
   .main-banner {
     height: 300px;
@@ -236,7 +281,6 @@ html {
   }
 }
 
-/************==== Media Queries =====***********/
 @media (min-width: 1024px) {
   html {
     font-size: 20px;
@@ -246,8 +290,11 @@ html {
     display: none;
   }
 
-  .search {
+  #search-icon-mobile {
     display: none;
+  }
+  .non-mobile-search {
+    width: 240px;
   }
 
   /* header */
@@ -292,40 +339,11 @@ html {
 
   /* Non-mobile Tools */
   .non-mobile-tool {
-    display: flex;
-    position: absolute;
-    padding: 30px 0;
-    right: 0;
-  }
-
-  .non-mobile-search {
-    box-sizing: border-box;
-    border: 1px solid #979797;
-    border-radius: 25px;
-    padding: 5px 5px 5px 20px;
-    width: 240px;
-    position: relative;
-    margin-right: 30px;
-  }
-
-  .non-mobile-search input {
-    border: none;
-    width: 80%;
-    height: 30px;
-    position: absolute;
-    top: 1px;
-    outline: none;
-  }
-
-  #search-icon {
-    height: 40px;
-    position: absolute;
-    right: 10px;
-    top: -2px;
-    cursor: pointer;
+    top: 0;
   }
 
   .header-tool-btn {
+    display: block;
     width: 35px;
     margin-right: 5%;
   }

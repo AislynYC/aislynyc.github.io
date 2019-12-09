@@ -4,6 +4,11 @@ const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
 const searchBtn = document.getElementById('search-icon');
+const searchMobileBtn = document.getElementById('search-icon-mobile');
+const nonMobile = document.getElementsByClassName('non-mobile-tool')[0];
+const headerToolBtn = document.getElementsByClassName('header-tool-btn');
+const searchPanel = document.getElementsByClassName('non-mobile-search')[0];
+const searchInput = document.getElementById('searchInput');
 let nextPage = null;
 let currentCategory = '';
 
@@ -34,11 +39,17 @@ const getProductList = (category, page, callback) => {
 // RENDER Product List
 const render = data => {
   const dataObj = JSON.parse(data).data;
+  //assign Next Page
+  if (JSON.parse(data).next_paging !== undefined) {
+    nextPage = JSON.parse(data).next_paging;
+  } else {
+    nextPage = null;
+  }
 
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
     productDiv.className = 'col';
-
+    // Color Box rendering
     const drawColorBox = item => {
       let colorArea = document.createElement('div');
       colorArea.className = 'color-tags-area';
@@ -52,7 +63,7 @@ const render = data => {
       });
       return colorArea;
     };
-
+    // render data to template
     let template = `
             <img
               class="product-pic"
@@ -67,14 +78,7 @@ const render = data => {
     productDiv.innerHTML = template;
     rowDiv.appendChild(productDiv);
   });
-
-  if (JSON.parse(data).next_paging !== undefined) {
-    nextPage = JSON.parse(data).next_paging;
-  } else {
-    nextPage = null;
-  }
 };
-//GET Next Page
 
 //INITIAL & CALL Product List
 getProductList('all', 0, response => {
@@ -135,8 +139,19 @@ const search = callback => {
 };
 
 searchBtn.addEventListener('click', () => {
-  rowDiv.innerHTML = '';
-  search(render);
+  if (searchInput !== null) {
+    rowDiv.innerHTML = '';
+    search(render);
+  } else {
+    alert('請輸入搜尋關鍵字');
+  }
+});
+
+//for mobile search
+searchMobileBtn.addEventListener('click', () => {
+  console.log('cue');
+  searchPanel.style.display = 'block';
+  searchMobileBtn.style.display = 'none';
 });
 
 //Scroll to Next Page (Infinite Scroll)
@@ -147,7 +162,6 @@ window.addEventListener('scroll', () => {
       document.body.offsetHeight &&
     nextPage !== null
   ) {
-    console.log(nextPage);
     getProductList(currentCategory, nextPage, response => {
       render(response);
     });
