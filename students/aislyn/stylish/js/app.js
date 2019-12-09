@@ -4,12 +4,20 @@ const womanBtn = document.getElementById('nav-btn-woman');
 const manBtn = document.getElementById('nav-btn-man');
 const accBtn = document.getElementById('nav-btn-accessories');
 const searchBtn = document.getElementById('search-icon');
+let nextPage = null;
+let currentCategory = '';
 
 // GET Product List
 
-const getProductList = (src, callback) => {
+const getProductList = (category, page, callback) => {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', src);
+  let url =
+    'https://api.appworks-school.tw/api/1.0/products/' +
+    category +
+    '?paging=' +
+    page;
+
+  xhr.open('GET', url);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
@@ -20,10 +28,13 @@ const getProductList = (src, callback) => {
     }
   };
   xhr.send();
+  currentCategory = category;
 };
 
+// RENDER Product List
 const render = data => {
   const dataObj = JSON.parse(data).data;
+
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
     productDiv.className = 'col';
@@ -56,53 +67,46 @@ const render = data => {
     productDiv.innerHTML = template;
     rowDiv.appendChild(productDiv);
   });
-};
 
-getProductList(
-  'https://api.appworks-school.tw/api/1.0/products/all',
-  response => {
-    render(response);
+  if (JSON.parse(data).next_paging !== undefined) {
+    nextPage = JSON.parse(data).next_paging;
+  } else {
+    nextPage = null;
   }
-);
+};
+//GET Next Page
+
+//INITIAL & CALL Product List
+getProductList('all', 0, response => {
+  render(response);
+});
 
 logoBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  getProductList(
-    'https://api.appworks-school.tw/api/1.0/products/all',
-    response => {
-      render(response);
-    }
-  );
+  getProductList('all', 0, response => {
+    render(response);
+  });
 });
 
 womanBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  getProductList(
-    'https://api.appworks-school.tw/api/1.0/products/women',
-    response => {
-      render(response);
-    }
-  );
+  getProductList('women', 0, response => {
+    render(response);
+  });
 });
 
 manBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  getProductList(
-    'https://api.appworks-school.tw/api/1.0/products/men',
-    response => {
-      render(response);
-    }
-  );
+  getProductList('men', 0, response => {
+    render(response);
+  });
 });
 
 accBtn.addEventListener('click', () => {
   rowDiv.innerHTML = '';
-  getProductList(
-    'https://api.appworks-school.tw/api/1.0/products/accessories',
-    response => {
-      render(response);
-    }
-  );
+  getProductList('accessories', 0, response => {
+    render(response);
+  });
 });
 
 //Search & GET
@@ -139,9 +143,13 @@ searchBtn.addEventListener('click', () => {
 
 window.addEventListener('scroll', () => {
   if (
-    document.documentElement.scrollTop +
-      document.body.getBoundingClientRect().bottom ===
-    document.body.offsetHeight
+    document.documentElement.scrollTop + window.innerHeight ===
+      document.body.offsetHeight &&
+    nextPage !== null
   ) {
+    console.log(nextPage);
+    getProductList(currentCategory, nextPage, response => {
+      render(response);
+    });
   }
 });
