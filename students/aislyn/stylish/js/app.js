@@ -24,6 +24,10 @@ const getProductList = (category, page, callback) => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         callback(xhr.responseText);
+      } else if (xhr.status === 400) {
+        getProductList(currentCategory, 0, response => {
+          render(response);
+        });
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -138,8 +142,8 @@ const search = callback => {
   xhr.send();
 };
 
-searchInput.addEventListener('input', e => {
-  if (searchInput !== null) {
+searchInput.addEventListener('input', () => {
+  if (searchInput !== '' || searchInput !== null) {
     rowDiv.innerHTML = '';
     search(render);
   } else {
@@ -149,8 +153,7 @@ searchInput.addEventListener('input', e => {
 
 //for mobile search
 searchInput.addEventListener('click', () => {
-  console.log('cue');
-  searchPanel.style.width = '350px';
+  searchPanel.style.width = '100%';
   searchInput.style.border = 'solid 1px #979797';
   searchInput.style.borderRadius = '30px';
   headerTool.classList.add('header-tools');
@@ -160,7 +163,7 @@ searchInput.addEventListener('click', () => {
 
 window.addEventListener('scroll', () => {
   if (
-    document.documentElement.scrollTop + window.innerHeight ===
+    document.documentElement.scrollTop + window.innerHeight + 61 >=
       document.body.offsetHeight &&
     nextPage !== null
   ) {
