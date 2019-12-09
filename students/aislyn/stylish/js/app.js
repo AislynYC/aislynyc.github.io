@@ -163,7 +163,6 @@ searchInput.addEventListener('click', () => {
 let isLoading = false;
 
 window.addEventListener('scroll', () => {
-  console.log(isLoading);
   if (
     document.documentElement.scrollTop + window.innerHeight + 61 >=
       document.body.offsetHeight &&
