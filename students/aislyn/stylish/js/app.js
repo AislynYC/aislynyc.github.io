@@ -7,7 +7,8 @@ const accBtn = document.getElementById('nav-btn-accessories');
 const searchInput = document.getElementById('search-input');
 const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
-const mainBanner = document.getElementsByClassName('main-banner')[0];
+const slideArea = document.getElementsByClassName('slide-area')[0];
+const slideDot = document.getElementsByClassName('slide-dot')[0];
 let nextPage = null;
 let currentCategory = '';
 
@@ -155,18 +156,28 @@ searchInput.addEventListener('click', () => {
 let isLoading = false;
 
 window.addEventListener('scroll', () => {
+  console.log(
+    document.documentElement.scrollTop + window.innerHeight,
+    document.body.offsetHeight
+  );
   if (
-    document.documentElement.scrollTop + window.innerHeight + 61 >=
+    // 1. condition for loading next page
+    document.documentElement.scrollTop + window.innerHeight + 60 >=
       document.body.offsetHeight &&
     nextPage !== null &&
     isLoading === false
   ) {
     isLoading = true;
+    // 2. Parameters required to get & render next page
+    //    - Current Category viewed by user
+    //    - What is the next page?
     getProductList(currentCategory, nextPage, response => {
       render(response);
     });
   }
 });
+// 3. Prevent duplicate request caused by user action
+//    -isLoading
 
 //Marketing Campaigns
 const getCampaigns = (url, callback) => {
@@ -190,6 +201,8 @@ const renderCampaigns = response => {
   Object.values(dataObj).forEach(item => {
     let campaignSlide = document.createElement('div');
     campaignSlide.className = 'campaign-slide';
+    let dot = document.createElement('span');
+    dot.className = 'dot';
     let picUrl = host + item.picture;
 
     let template = `
@@ -198,10 +211,56 @@ const renderCampaigns = response => {
                     </div>
                     `;
     campaignSlide.innerHTML = template;
-    mainBanner.appendChild(campaignSlide);
+    slideArea.appendChild(campaignSlide);
+    slideDot.appendChild(dot);
   });
 };
 
 getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
   renderCampaigns(response);
 });
+
+// const showSlides = () => {
+//   let i;
+//   const slides = document.getElementsByClassName('story-container');
+//   const dots = document.getElementsByClassName('dot');
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].classList.add('active');
+//   }
+// };
+
+// let slideIndex = 0; // 一開始要顯示的圖，0 的話就是顯示第一張
+// const slides = document.getElementsByClassName('story-container');
+// const timer = 2000;
+// const interval = window.setInterval(showNext, timer);
+// console.log(slides.item(1));
+// // 帶入目前要顯示第幾張圖
+// var showCurrent = function() {
+//   var itemToShow = Math.abs(slideIndex % slides.length); // 取餘數才能無限循環
+//   [].forEach.call(items, function(el) {
+//     el.classList.remove('show'); // 將所有 img 的 class="show" 移除
+//   });
+//   slides[itemToShow].classList.add('show'); // 將要顯示的 img 加入 class="show"
+// };
+
+// function showNext() {
+//   slideIndex++;
+//   showCurrent();
+// }
+
+// // 滑鼠移到 #slider 上方時，停止循環計時
+// slideArea.addEventListener('mouseover', function() {
+//   interval = clearInterval(interval);
+// });
+
+// // 滑鼠離開 #slider 時，重新開始循環計時
+// slideArea.addEventListener('mouseout', function() {
+//   interval = window.setInterval(showNext, timer);
+// });
+
+// // 綁定點擊上一張，下一張按鈕的事件
+// // nextBtn.addEventListener('click', showNext, false);
+// // prevBtn.addEventListener('click', showPrev, false);
+
+// // 一開始秀出第一張圖，也可以在 HTML 的第一個 img 裡加上 class="show"
+// slides[0].classList.add('show');
