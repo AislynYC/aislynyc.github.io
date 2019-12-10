@@ -184,19 +184,27 @@ const renderCampaigns = response => {
   const dataObj = JSON.parse(response).data;
 
   Object.values(dataObj).forEach(item => {
-    let campaignSlide = document.createElement('div');
-    campaignSlide.className = 'campaign-slide';
-    let dot = document.createElement('span');
-    dot.className = 'dot';
     let picUrl = host + item.picture;
 
-    let template = `
-                    <div class="story-container" style="background-image: url(${picUrl})">
-                    <div class="story">${item.story}</div>
-                    </div>
-                    `;
-    campaignSlide.innerHTML = template;
+    let campaignSlide = document.createElement('div');
+    campaignSlide.className = 'campaign-slide';
+
+    let storyContainer = document.createElement('div');
+    storyContainer.className = 'story-container fade';
+    storyContainer.style.backgroundImage = `url(${picUrl})`;
+
+    let dot = document.createElement('span');
+    dot.className = 'dot';
+
+    let layoutStory = document.createElement('div');
+    layoutStory.className = 'story';
+    let storyText = item.story.replace(/\s+/g, '<br/>');
+    layoutStory.innerHTML = storyText;
+
     slideArea.appendChild(campaignSlide);
+    campaignSlide.appendChild(storyContainer);
+    storyContainer.appendChild(layoutStory);
+
     slideDot.appendChild(dot);
   });
 };
@@ -205,14 +213,41 @@ getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
   renderCampaigns(response);
 });
 
-// const showSlides = () => {
-//   let i;
-//   const slides = document.getElementsByClassName('story-container');
-//   const dots = document.getElementsByClassName('dot');
+let slideIndex = 0;
+
+const showSlides = () => {
+  let i;
+  const slides = document.getElementsByClassName('story-container');
+  const dots = document.getElementsByClassName('dot');
+  console.log(slides);
+  for (i = 0; i < slides.length; i++) {
+    slides[i].classList.add('show');
+  }
+};
+showSlides();
+// var slideIndex = 0;
+// showSlides();
+
+// function showSlides() {
+//   var i;
+//   var slides = document.getElementsByClassName('story-container');
+//   var dots = document.getElementsByClassName('dot');
 //   for (i = 0; i < slides.length; i++) {
-//     slides[i].classList.add('active');
+//     slides[i].style.display = 'none';
 //   }
-// };
+//   slideIndex++;
+//   if (slideIndex > slides.length) {
+//     slideIndex = 1;
+//   }
+//   for (i = 0; i < dots.length; i++) {
+//     dots[i].className = dots[i].className.replace(' active', '');
+//   }
+//   console.log(slides);
+//   slides[slideIndex - 1].style.display = 'block';
+
+//   dots[slideIndex - 1].className += ' active';
+//   setTimeout(showSlides, 2000); // Change image every 2 seconds
+// }
 
 // let slideIndex = 0; // 一開始要顯示的圖，0 的話就是顯示第一張
 // const slides = document.getElementsByClassName('story-container');

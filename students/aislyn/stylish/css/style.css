@@ -104,24 +104,29 @@ html {
 }
 
 .story-container {
-  display: none;
+  /* display: none; */
   position: relative;
   width: 100%;
   height: 500px;
   background-size: auto 500px;
   background-position: center top;
   background-repeat: no-repeat;
-  /* opacity: 0;
-  visibility: hidden; */
+  opacity: 0;
+  visibility: hidden;
 }
-/* 
+
 .show {
   opacity: 1;
   visibility: visible;
-} */
+}
 
 .story {
-  position: absolute;
+  font-size: 16px;
+  color: #070707;
+  margin: 0 auto;
+  width: 60%;
+  padding-top: 100px;
+  line-height: 40px;
 }
 
 .dot {
@@ -138,6 +143,32 @@ html {
 .active,
 .dot:hover {
   background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /*************** Product-IMG Area ***************/
@@ -388,6 +419,11 @@ html {
   .main-banner {
     height: 500px;
     background-size: auto 500px;
+  }
+
+  .story {
+    font-size: 20px;
+    line-height: 45px;
   }
 
   /* product-img area */
