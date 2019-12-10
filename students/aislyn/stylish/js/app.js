@@ -1,3 +1,4 @@
+const host = 'https://api.appworks-school.tw';
 const rowDiv = document.getElementsByClassName('row')[0];
 const logoBtn = document.getElementsByClassName('logo')[0];
 const womanBtn = document.getElementById('nav-btn-woman');
@@ -6,6 +7,7 @@ const accBtn = document.getElementById('nav-btn-accessories');
 const searchInput = document.getElementById('search-input');
 const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
+const mainBanner = document.getElementsByClassName('main-banner')[0];
 let nextPage = null;
 let currentCategory = '';
 
@@ -13,21 +15,13 @@ let currentCategory = '';
 
 const getProductList = (category, page, callback) => {
   const xhr = new XMLHttpRequest();
-  let url =
-    'https://api.appworks-school.tw/api/1.0/products/' +
-    category +
-    '?paging=' +
-    page;
+  let url = host + '/api/1.0/products/' + category + '?paging=' + page;
 
   xhr.open('GET', url);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         callback(xhr.responseText);
-      } else if (xhr.status === 400) {
-        getProductList(currentCategory, 0, response => {
-          render(response);
-        });
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -121,9 +115,7 @@ accBtn.addEventListener('click', () => {
 const search = callback => {
   const xhr = new XMLHttpRequest();
   const inputValue = document.getElementById('search-input').value;
-  const url =
-    'https://api.appworks-school.tw/api/1.0/products/search?keyword=' +
-    inputValue;
+  const url = host + '/api/1.0/products/search?keyword=' + inputValue;
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
@@ -174,4 +166,42 @@ window.addEventListener('scroll', () => {
       render(response);
     });
   }
+});
+
+//Marketing Campaigns
+const getCampaigns = (url, callback) => {
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        callback(xhr.responseText);
+      } else {
+        alert(`[${xhr.status}] ${xhr.statusText}`);
+      }
+    }
+  };
+  xhr.open('GET', url);
+  xhr.send();
+};
+
+const renderCampaigns = response => {
+  const dataObj = JSON.parse(response).data;
+
+  Object.values(dataObj).forEach(item => {
+    let campaignSlide = document.createElement('div');
+    campaignSlide.className = 'campaign-slide';
+    let picUrl = host + item.picture;
+
+    let template = `
+                    <div class="story-container" style="background-image: url(${picUrl})">
+                    <div class="story">${item.story}</div>
+                    </div>
+                    `;
+    campaignSlide.innerHTML = template;
+    mainBanner.appendChild(campaignSlide);
+  });
+};
+
+getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
+  renderCampaigns(response);
 });

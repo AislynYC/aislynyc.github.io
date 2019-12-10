@@ -43,6 +43,8 @@ html {
   margin: 0 auto;
   width: 40px;
   height: 100%;
+  -webkit-transition: width 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out;
 }
 
 #search-input {
@@ -99,7 +101,10 @@ html {
 .main-banner {
   height: 185px;
   width: 100%;
-  background-image: url('https://fakeimg.pl/1920x500/fbe3b9/?text=Slider(show more characters to observe width)');
+}
+
+.story-container {
+  width: 100%;
   background-size: auto 185px;
   background-position: center top;
   background-repeat: no-repeat;
