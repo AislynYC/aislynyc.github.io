@@ -219,12 +219,25 @@ const showSlides = () => {
   let i;
   const slides = document.getElementsByClassName('story-container');
   const dots = document.getElementsByClassName('dot');
-  console.log(slides);
+
   for (i = 0; i < slides.length; i++) {
-    slides[i].classList.add('show');
+    slides[i].classList.remove('show');
   }
+
+  slideIndex++;
+  if (slideIndex > slides.length) {
+    slideIndex = 1;
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(' active', '');
+  }
+  slides[slideIndex - 1].classList.add('show');
+  dots[slideIndex - 1].className += ' active';
 };
-showSlides();
+
+const timer = 3000;
+const interval = window.setInterval(showSlides, timer);
+
 // var slideIndex = 0;
 // showSlides();
 
@@ -253,7 +266,7 @@ showSlides();
 // const slides = document.getElementsByClassName('story-container');
 // const timer = 2000;
 // const interval = window.setInterval(showNext, timer);
-// console.log(slides.item(1));
+
 // // 帶入目前要顯示第幾張圖
 // var showCurrent = function() {
 //   var itemToShow = Math.abs(slideIndex % slides.length); // 取餘數才能無限循環
