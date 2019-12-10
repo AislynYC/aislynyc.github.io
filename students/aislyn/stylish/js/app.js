@@ -9,8 +9,9 @@ const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 const slideArea = document.getElementsByClassName('slide-area')[0];
 const slideDot = document.getElementsByClassName('slide-dot')[0];
-let nextPage = null;
+let nextPage = undefined;
 let currentCategory = '';
+let isLoading = false;
 
 // GET Product List
 
@@ -36,11 +37,7 @@ const getProductList = (category, page, callback) => {
 const render = data => {
   const dataObj = JSON.parse(data).data;
   //assign Next Page
-  if (JSON.parse(data).next_paging !== undefined) {
-    nextPage = JSON.parse(data).next_paging;
-  } else {
-    nextPage = null;
-  }
+  nextPage = JSON.parse(data).next_paging;
 
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('div');
@@ -153,31 +150,19 @@ searchInput.addEventListener('click', () => {
 
 //Scroll to Next Page (Infinite Scroll)
 
-let isLoading = false;
-
 window.addEventListener('scroll', () => {
-  console.log(
-    document.documentElement.scrollTop + window.innerHeight,
-    document.body.offsetHeight
-  );
   if (
-    // 1. condition for loading next page
     document.documentElement.scrollTop + window.innerHeight + 60 >=
       document.body.offsetHeight &&
-    nextPage !== null &&
+    nextPage !== undefined &&
     isLoading === false
   ) {
     isLoading = true;
-    // 2. Parameters required to get & render next page
-    //    - Current Category viewed by user
-    //    - What is the next page?
     getProductList(currentCategory, nextPage, response => {
       render(response);
     });
   }
 });
-// 3. Prevent duplicate request caused by user action
-//    -isLoading
 
 //Marketing Campaigns
 const getCampaigns = (url, callback) => {
