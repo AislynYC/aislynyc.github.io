@@ -13,27 +13,6 @@ let nextPage = undefined;
 let currentCategory = '';
 let isLoading = false;
 
-// const categoryFocus = currentCategory => {
-//   if (currentCategory !== 'all') {
-//     let focusedNavTag = getElementsByClassName('focus-nav-tag');
-//     for (let i = 0; i < focusedNavTag.length; i++) {
-//       focusedNavTag[i].classList.remove('focus-nav-tag');
-//     }
-//     if (currentCategory === 'women') {
-//       womanBtn.classList.add('focus-nav-tag');
-//     }
-
-//     if (currentCategory === 'men') {
-//       manBtn.classList.add('focus-nav-tag');
-//     }
-
-//     if (currentCategory === 'accessories') {
-//       manBtn.classList.add('focus-nav-tag');
-//     }
-//   }
-// };
-// categoryFocus();
-
 // GET Product List
 
 const getProductList = (category, page, callback) => {
@@ -206,12 +185,14 @@ const renderCampaigns = response => {
 
   Object.values(dataObj).forEach(item => {
     let picUrl = host + item.picture;
+    let productUrl = './product.html?id=' + item.product_id;
 
     let campaignSlide = document.createElement('div');
     campaignSlide.className = 'campaign-slide';
 
-    let storyContainer = document.createElement('div');
+    let storyContainer = document.createElement('a');
     storyContainer.className = 'story-container fade';
+    storyContainer.setAttribute('href', productUrl);
     storyContainer.style.backgroundImage = `url(${picUrl})`;
 
     let dot = document.createElement('span');
@@ -236,7 +217,7 @@ getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
 
 let slideIndex = 0;
 const slides = document.getElementsByClassName('story-container');
-const dots = document.getElementsByClassName('dot');
+const dots = slideDot.childNodes;
 
 const showSlides = () => {
   let i;
@@ -261,8 +242,8 @@ slideDot.addEventListener('click', event => {
   let sel = '.dot';
   while (targetElement != null) {
     if (targetElement.matches(sel)) {
-      slideIndex = [].slice.call(slideDot).indexOf(this);
-      console.log(slideIndex);
+      var dotsArray = [].slice.call(dots);
+      slideIndex = dotsArray.indexOf(targetElement);
       showSlides();
     }
     targetElement = targetElement.parentElement;
