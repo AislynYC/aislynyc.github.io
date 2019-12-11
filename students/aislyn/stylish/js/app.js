@@ -13,6 +13,27 @@ let nextPage = undefined;
 let currentCategory = '';
 let isLoading = false;
 
+// const categoryFocus = currentCategory => {
+//   if (currentCategory !== 'all') {
+//     let focusedNavTag = getElementsByClassName('focus-nav-tag');
+//     for (let i = 0; i < focusedNavTag.length; i++) {
+//       focusedNavTag[i].classList.remove('focus-nav-tag');
+//     }
+//     if (currentCategory === 'women') {
+//       womanBtn.classList.add('focus-nav-tag');
+//     }
+
+//     if (currentCategory === 'men') {
+//       manBtn.classList.add('focus-nav-tag');
+//     }
+
+//     if (currentCategory === 'accessories') {
+//       manBtn.classList.add('focus-nav-tag');
+//     }
+//   }
+// };
+// categoryFocus();
+
 // GET Product List
 
 const getProductList = (category, page, callback) => {
@@ -214,86 +235,47 @@ getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
 });
 
 let slideIndex = 0;
+const slides = document.getElementsByClassName('story-container');
+const dots = document.getElementsByClassName('dot');
 
 const showSlides = () => {
   let i;
-  const slides = document.getElementsByClassName('story-container');
-  const dots = document.getElementsByClassName('dot');
 
   for (i = 0; i < slides.length; i++) {
     slides[i].classList.remove('show');
   }
-
-  slideIndex++;
-  if (slideIndex > slides.length) {
-    slideIndex = 1;
-  }
   for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(' active', '');
+    dots[i].classList.remove('active');
   }
-  slides[slideIndex - 1].classList.add('show');
-  dots[slideIndex - 1].className += ' active';
+
+  if (slideIndex >= slides.length) {
+    slideIndex = 0;
+  }
+  slides[slideIndex].classList.add('show');
+  dots[slideIndex].classList.add('active');
+  slideIndex++;
 };
 
-const timer = 3000;
-const interval = window.setInterval(showSlides, timer);
+slideDot.addEventListener('click', event => {
+  let targetElement = event.target;
+  let sel = '.dot';
+  while (targetElement != null) {
+    if (targetElement.matches(sel)) {
+      slideIndex = [].slice.call(slideDot).indexOf(this);
+      console.log(slideIndex);
+      showSlides();
+    }
+    targetElement = targetElement.parentElement;
+  }
+});
 
-// var slideIndex = 0;
-// showSlides();
+let interval = window.setInterval(showSlides, 3000);
 
-// function showSlides() {
-//   var i;
-//   var slides = document.getElementsByClassName('story-container');
-//   var dots = document.getElementsByClassName('dot');
-//   for (i = 0; i < slides.length; i++) {
-//     slides[i].style.display = 'none';
-//   }
-//   slideIndex++;
-//   if (slideIndex > slides.length) {
-//     slideIndex = 1;
-//   }
-//   for (i = 0; i < dots.length; i++) {
-//     dots[i].className = dots[i].className.replace(' active', '');
-//   }
-//   console.log(slides);
-//   slides[slideIndex - 1].style.display = 'block';
-
-//   dots[slideIndex - 1].className += ' active';
-//   setTimeout(showSlides, 2000); // Change image every 2 seconds
-// }
-
-// let slideIndex = 0; // 一開始要顯示的圖，0 的話就是顯示第一張
-// const slides = document.getElementsByClassName('story-container');
-// const timer = 2000;
-// const interval = window.setInterval(showNext, timer);
-
-// // 帶入目前要顯示第幾張圖
-// var showCurrent = function() {
-//   var itemToShow = Math.abs(slideIndex % slides.length); // 取餘數才能無限循環
-//   [].forEach.call(items, function(el) {
-//     el.classList.remove('show'); // 將所有 img 的 class="show" 移除
-//   });
-//   slides[itemToShow].classList.add('show'); // 將要顯示的 img 加入 class="show"
-// };
-
-// function showNext() {
-//   slideIndex++;
-//   showCurrent();
-// }
-
-// // 滑鼠移到 #slider 上方時，停止循環計時
+// Clear Interval while Mouseover
 // slideArea.addEventListener('mouseover', function() {
 //   interval = clearInterval(interval);
 // });
 
-// // 滑鼠離開 #slider 時，重新開始循環計時
 // slideArea.addEventListener('mouseout', function() {
-//   interval = window.setInterval(showNext, timer);
+//   interval = window.setInterval(showSlides, timer);
 // });
-
-// // 綁定點擊上一張，下一張按鈕的事件
-// // nextBtn.addEventListener('click', showNext, false);
-// // prevBtn.addEventListener('click', showPrev, false);
-
-// // 一開始秀出第一張圖，也可以在 HTML 的第一個 img 裡加上 class="show"
-// slides[0].classList.add('show');

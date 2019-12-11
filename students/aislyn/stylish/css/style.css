@@ -92,6 +92,11 @@ html {
   color: #828282;
 }
 
+.focus-nav-tag {
+  font-weight: bold;
+  color: #8b572a;
+}
+
 .main-nav a:hover {
   color: white;
 }
@@ -99,7 +104,7 @@ html {
 /* Banner */
 
 .main-banner {
-  /* height: 100%; */
+  position: relative;
   width: 100%;
 }
 
@@ -124,6 +129,12 @@ html {
   width: 60%;
   padding-top: 100px;
   line-height: 40px;
+}
+.slide-dot {
+  position: absolute;
+  top: 470px;
+  left: 50%;
+  transform: translateX(-55%);
 }
 
 .dot {
