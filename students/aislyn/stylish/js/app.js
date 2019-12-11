@@ -213,50 +213,42 @@ const renderCampaigns = response => {
 
 getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
   renderCampaigns(response);
-});
+  let slideIndex = 0;
+  const slides = document.getElementsByClassName('story-container');
+  const dots = slideDot.childNodes;
 
-let slideIndex = 0;
-const slides = document.getElementsByClassName('story-container');
-const dots = slideDot.childNodes;
+  showSlides = () => {
+    let i;
 
-const showSlides = () => {
-  let i;
-
-  for (i = 0; i < slides.length; i++) {
-    slides[i].classList.remove('show');
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].classList.remove('active');
-  }
-
-  if (slideIndex >= slides.length) {
-    slideIndex = 0;
-  }
-  slides[slideIndex].classList.add('show');
-  dots[slideIndex].classList.add('active');
-  slideIndex++;
-};
-
-slideDot.addEventListener('click', event => {
-  let targetElement = event.target;
-  let sel = '.dot';
-  while (targetElement != null) {
-    if (targetElement.matches(sel)) {
-      var dotsArray = [].slice.call(dots);
-      slideIndex = dotsArray.indexOf(targetElement);
-      showSlides();
+    for (i = 0; i < slides.length; i++) {
+      slides[i].classList.remove('show');
     }
-    targetElement = targetElement.parentElement;
-  }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].classList.remove('active');
+    }
+
+    if (slideIndex >= slides.length) {
+      slideIndex = 0;
+    }
+    slides[slideIndex].classList.add('show');
+    dots[slideIndex].classList.add('active');
+    slideIndex++;
+  };
+
+  showSlides();
+
+  slideDot.addEventListener('click', event => {
+    let targetElement = event.target;
+    let sel = '.dot';
+    while (targetElement != null) {
+      if (targetElement.matches(sel)) {
+        var dotsArray = [].slice.call(dots);
+        slideIndex = dotsArray.indexOf(targetElement);
+        showSlides();
+      }
+      targetElement = targetElement.parentElement;
+    }
+  });
+
+  window.setInterval(showSlides, 5000);
 });
-
-let interval = window.setInterval(showSlides, 3000);
-
-// Clear Interval while Mouseover
-// slideArea.addEventListener('mouseover', function() {
-//   interval = clearInterval(interval);
-// });
-
-// slideArea.addEventListener('mouseout', function() {
-//   interval = window.setInterval(showSlides, timer);
-// });
