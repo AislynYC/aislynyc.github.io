@@ -8,7 +8,10 @@ html {
 
 /***************  HEADER ***************/
 .main-header {
-  position: relative;
+  position: fixed;
+  height: 99px;
+  z-index: 2;
+  background-color: white;
 }
 .logo {
   height: 20px;
@@ -43,6 +46,7 @@ html {
   margin: 0 auto;
   width: 40px;
   height: 100%;
+  padding-right: 20px;
   -webkit-transition: width 0.2s ease-in-out;
   transition: width 0.2s ease-in-out;
 }
@@ -106,6 +110,7 @@ html {
 .main-banner {
   position: relative;
   width: 100%;
+  padding-top: 99px;
 }
 
 .story-container {
@@ -132,7 +137,7 @@ html {
 }
 .slide-dot {
   position: absolute;
-  top: 470px;
+  top: 560px;
   left: 50%;
   transform: translateX(-55%);
 }
@@ -141,7 +146,7 @@ html {
   cursor: pointer;
   height: 11px;
   width: 11px;
-  margin: 0 8px;
+  margin: 0 10px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
@@ -206,8 +211,8 @@ html {
   color: #3f3a3a;
 }
 
-.color-tag,
-.product-price {
+.col > .color-tag,
+.col > .product-price {
   display: inline-block;
   margin-top: 8px;
   font-size: 1rem;
@@ -356,6 +361,7 @@ html {
 
   .main-header {
     display: flex;
+    position: relative;
   }
 
   .header-tools-mini {
@@ -419,7 +425,13 @@ html {
   }
 
   /* banner */
+  .main-banner {
+    padding: 0;
+  }
 
+  .slide-dot {
+    top: 465px;
+  }
   .story {
     font-size: 20px;
     line-height: 45px;
@@ -489,7 +501,6 @@ html {
   }
 
   .main-footer a,
-  .divider,
   .external-link,
   .copyright p {
     line-height: 115px;
