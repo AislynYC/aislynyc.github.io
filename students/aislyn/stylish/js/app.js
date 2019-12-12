@@ -40,8 +40,9 @@ const render = data => {
   nextPage = JSON.parse(data).next_paging;
 
   Object.values(dataObj).forEach(item => {
-    let productDiv = document.createElement('div');
+    let productDiv = document.createElement('a');
     productDiv.className = 'col';
+    productDiv.setAttribute('href', `product.html?id=${item.id}`);
 
     // Color Box rendering
     const drawColorBox = item => {
