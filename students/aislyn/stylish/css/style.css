@@ -211,7 +211,7 @@ html {
   color: #3f3a3a;
 }
 
-.col > .color-tag,
+.color-tags-wrap > .color-tag,
 .col > .product-price {
   display: inline-block;
   margin-top: 8px;
