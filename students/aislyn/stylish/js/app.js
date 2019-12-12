@@ -42,7 +42,7 @@ const render = data => {
   Object.values(dataObj).forEach(item => {
     let productDiv = document.createElement('a');
     productDiv.className = 'col';
-    productDiv.setAttribute('href', `product.html?id=${item.id}`);
+    productDiv.setAttribute('href', `pages/product.html?id=${item.id}`);
 
     // Color Box rendering
     const drawColorBox = item => {
@@ -186,7 +186,7 @@ const renderCampaigns = response => {
 
   Object.values(dataObj).forEach(item => {
     let picUrl = host + item.picture;
-    let productUrl = './product.html?id=' + item.product_id;
+    let productUrl = './pages/product.html?id=' + item.product_id;
 
     let campaignSlide = document.createElement('div');
     campaignSlide.className = 'campaign-slide';

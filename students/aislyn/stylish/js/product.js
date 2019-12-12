@@ -1,5 +1,6 @@
 const host = 'https://api.appworks-school.tw';
 let productQuery = window.location.search.substring(1);
+const mainInfo = document.getElementsByClassName('main-info-area')[0];
 
 const getProductDetail = callback => {
   const xhr = new XMLHttpRequest();
@@ -18,4 +19,62 @@ const getProductDetail = callback => {
   xhr.send();
 };
 
-getProductDetail(console.log(JSON.parse(xhr.responseText)));
+const renderProductPage = data => {
+  let productDtls = JSON.parse(data).data;
+
+  let productId = document.createElement('div');
+  productId.className = 'product-id';
+  productId.innerHTML = productDtls.id;
+  mainInfo.prepend(productId);
+
+  let productName = document.createElement('div');
+  productName.className = 'product-name';
+  productName.innerHTML = productDtls.title;
+  mainInfo.prepend(productName);
+
+  const productPrice = document.getElementsByClassName('product-price')[0];
+  productPrice.innerHTML = 'TWD.' + productDtls.price;
+
+  // Color Boxes rendering
+  const drawColorBox = item => {
+    const colorOption = document.querySelector('.color-area>.options');
+
+    item.colors.forEach(color => {
+      let colorDiv = document.createElement('div');
+      colorDiv.className = 'color-box';
+      colorDiv.title = color.name;
+      colorDiv.style.backgroundColor = '#' + color.code;
+      colorOption.appendChild(colorDiv);
+    });
+  };
+  drawColorBox(productDtls);
+
+  // Size Boxes rendering
+  const drawSizeBox = item => {
+    const sizeOption = document.querySelector('.size-area>.options');
+
+    item.sizes.forEach(size => {
+      let sizeDiv = document.createElement('div');
+      sizeDiv.className = 'size-box';
+      sizeDiv.innerHTML = size;
+      sizeOption.appendChild(sizeDiv);
+    });
+  };
+  drawSizeBox(productDtls);
+
+  // Product Description Rendering
+  const descDiv = document.getElementsByClassName('desc')[0];
+  const descDescription = productDtls.description.replace(/\s+/g, '<br />');
+  let template = `<div class="desc-note">${productDtls.note}</div>
+                <br />
+                <div class="desc-texture">${productDtls.texture}</div>
+                <div class="desc-description">${descDescription}</div>
+                <br />
+                <div class="desc-wash">${productDtls.wash}</div>
+                <div class="desc-place">${productDtls.place}</div>`;
+  descDiv.innerHTML = template;
+};
+
+getProductDetail(response => {
+  renderProductPage(response);
+});
