@@ -84,6 +84,9 @@
   background-color: black;
 }
 /* Quantity Section */
+.quantity-area {
+  margin-top: 15px;
+}
 .quantity-area > .label {
   display: none;
 }
@@ -185,12 +188,15 @@
   .quantity-area > .label {
     display: block;
     padding-right: 10px;
-    line-height: 46px;
+    line-height: 34px;
   }
   .quantity-area > .options {
     margin-bottom: 25px;
     width: 160px;
+    line-height: 34px;
+    height: 34px;
   }
+
   .desc {
     line-height: 23px;
   }
