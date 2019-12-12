@@ -1,6 +1,7 @@
 const host = 'https://api.appworks-school.tw';
 let productQuery = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
+const subInfo = document.getElementsByClassName('sub-info-area')[0];
 
 const getProductDetail = callback => {
   const xhr = new XMLHttpRequest();
@@ -22,6 +23,7 @@ const getProductDetail = callback => {
 const renderProductPage = data => {
   let productDtls = JSON.parse(data).data;
 
+  // ======== Main Info Rendering ========
   let productId = document.createElement('div');
   productId.className = 'product-id';
   productId.innerHTML = productDtls.id;
@@ -73,6 +75,32 @@ const renderProductPage = data => {
                 <div class="desc-wash">${productDtls.wash}</div>
                 <div class="desc-place">${productDtls.place}</div>`;
   descDiv.innerHTML = template;
+
+  // ======== Sub Info Rendering ========
+
+  // Sub Info Story Rendering
+  let subStory = document.createElement('div');
+  subStory.className = 'sub-info-story';
+  subStory.innerHTML = productDtls.story;
+  subInfo.appendChild(subStory);
+
+  // Sub Image Rendering
+  const subImgs = productDtls.images;
+
+  const subImgArea = document.createElement('div');
+  subImgArea.className = 'sub-img-area';
+
+  subImgs.forEach(item => {
+    let subImgWrap = document.createElement('div');
+    subImgWrap.className = 'product-sub-img-wrap';
+
+    let subImg = document.createElement('img');
+    subImg.className = 'product-sub-img';
+    subImg.setAttribute('src', item);
+    subImgWrap.appendChild(subImg);
+    subImgArea.appendChild(subImgWrap);
+    subInfo.appendChild(subImgArea);
+  });
 };
 
 getProductDetail(response => {
