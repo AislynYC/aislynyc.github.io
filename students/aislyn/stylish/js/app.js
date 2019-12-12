@@ -237,18 +237,13 @@ getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
 
   showSlides();
 
-  slideDot.addEventListener('click', event => {
-    let targetElement = event.target;
-    let sel = '.dot';
-    while (targetElement != null) {
-      if (targetElement.matches(sel)) {
-        var dotsArray = [].slice.call(dots);
-        slideIndex = dotsArray.indexOf(targetElement);
-        showSlides();
-      }
-      targetElement = targetElement.parentElement;
-    }
-  });
+  var dotsArray = [].slice.call(dots);
+  for (let i = 0; i < dotsArray.length; i++) {
+    dots[i].addEventListener('click', () => {
+      slideIndex = i;
+      showSlides();
+    });
+  }
 
   window.setInterval(showSlides, 5000);
 });
