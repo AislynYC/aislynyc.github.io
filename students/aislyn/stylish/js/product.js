@@ -1,9 +1,9 @@
 const host = 'https://api.appworks-school.tw';
-let productId;
+let productQuery = window.location.search.substring(1);
 
-const getProductDetail = () => {
+const getProductDetail = callback => {
   const xhr = new XMLHttpRequest();
-  let url = host + '/api/1.0/products/details?id=?' + productId;
+  let url = host + '/api/1.0/products/details?' + productQuery;
 
   xhr.open('GET', url);
   xhr.onreadystatechange = () => {
@@ -16,5 +16,6 @@ const getProductDetail = () => {
     }
   };
   xhr.send();
-  currentCategory = category;
 };
+
+getProductDetail(console.log(JSON.parse(xhr.responseText)));
