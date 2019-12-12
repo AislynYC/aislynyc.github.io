@@ -232,7 +232,7 @@ getCampaigns(host + '/api/1.0/marketing/campaigns', response => {
     }
     slides[slideIndex].classList.add('show');
     dots[slideIndex].classList.add('active');
-    slideIndex++;
+    slideIndex = (slideIndex + 1) % 3;
   };
 
   showSlides();
