@@ -1,4 +1,5 @@
 const host = 'https://api.appworks-school.tw';
+let query = window.location.search.substring(1);
 const rowDiv = document.getElementsByClassName('row')[0];
 const logoBtn = document.getElementsByClassName('logo')[0];
 const womanBtn = document.getElementById('nav-btn-woman');
@@ -9,15 +10,28 @@ const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 const slideArea = document.getElementsByClassName('slide-area')[0];
 const slideDot = document.getElementsByClassName('slide-dot')[0];
+
 let nextPage = undefined;
-let currentCategory = '';
+let currentCategory = 'all';
 let isLoading = false;
+
+//Get Query String & Assign CurrentCategory
+function getQueryString(category) {
+  const queryString = window.location.search.substring(1);
+  let queries = queryString.split('&');
+  for (i = 0; i < queries.length; i++) {
+    let query = queries[i].split('=');
+    if (query[0] == category) return query[1];
+    currentCategory = query[1];
+  }
+}
+getQueryString();
 
 // GET Product List
 
-const getProductList = (category, page, callback) => {
+const getProductList = (page, callback) => {
   const xhr = new XMLHttpRequest();
-  let url = host + '/api/1.0/products/' + category + '?paging=' + page;
+  let url = host + '/api/1.0/products/' + currentCategory + '?paging=' + page;
 
   xhr.open('GET', url);
   xhr.onreadystatechange = () => {
@@ -30,11 +44,10 @@ const getProductList = (category, page, callback) => {
     }
   };
   xhr.send();
-  currentCategory = category;
 };
 
 // RENDER Product List
-const render = data => {
+const renderProductList = data => {
   const dataObj = JSON.parse(data).data;
   //assign Next Page
   nextPage = JSON.parse(data).next_paging;
@@ -78,36 +91,8 @@ const render = data => {
 };
 
 //INITIAL & CALL Product List
-getProductList('all', 0, response => {
-  render(response);
-});
-
-logoBtn.addEventListener('click', () => {
-  rowDiv.innerHTML = '';
-  getProductList('all', 0, response => {
-    render(response);
-  });
-});
-
-womanBtn.addEventListener('click', () => {
-  rowDiv.innerHTML = '';
-  getProductList('women', 0, response => {
-    render(response);
-  });
-});
-
-manBtn.addEventListener('click', () => {
-  rowDiv.innerHTML = '';
-  getProductList('men', 0, response => {
-    render(response);
-  });
-});
-
-accBtn.addEventListener('click', () => {
-  rowDiv.innerHTML = '';
-  getProductList('accessories', 0, response => {
-    render(response);
-  });
+getProductList(0, response => {
+  renderProductList(response);
 });
 
 //Search & GET
@@ -137,7 +122,7 @@ const search = callback => {
 searchInput.addEventListener('input', () => {
   if (searchInput.value.trim() != '') {
     rowDiv.innerHTML = '';
-    search(render);
+    search(renderProductList);
   }
 });
 
@@ -159,8 +144,8 @@ window.addEventListener('scroll', () => {
     isLoading === false
   ) {
     isLoading = true;
-    getProductList(currentCategory, nextPage, response => {
-      render(response);
+    getProductList(nextPage, response => {
+      renderProductList(response);
     });
   }
 });
