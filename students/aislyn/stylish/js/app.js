@@ -10,7 +10,6 @@ const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 const slideArea = document.getElementsByClassName('slide-area')[0];
 const slideDot = document.getElementsByClassName('slide-dot')[0];
-
 let nextPage = undefined;
 let currentCategory = 'all';
 let isLoading = false;
@@ -19,10 +18,14 @@ let isLoading = false;
 function getQueryString(category) {
   const queryString = window.location.search.substring(1);
   let queries = queryString.split('&');
-  for (i = 0; i < queries.length; i++) {
-    let query = queries[i].split('=');
-    if (query[0] == category) return query[1];
-    currentCategory = query[1];
+  if (!queryString === true) {
+    currentCategory = 'all';
+  } else {
+    for (i = 0; i < queries.length; i++) {
+      let query = queries[i].split('=');
+      if (query[0] == category) return query[1];
+      currentCategory = query[1];
+    }
   }
 }
 getQueryString();
