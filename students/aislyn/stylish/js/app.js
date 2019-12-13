@@ -10,7 +10,6 @@ const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 const slideArea = document.getElementsByClassName('slide-area')[0];
 const slideDot = document.getElementsByClassName('slide-dot')[0];
-
 let nextPage = undefined;
 let currentCategory = 'all';
 let isLoading = false;
