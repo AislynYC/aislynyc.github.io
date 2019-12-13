@@ -1,11 +1,12 @@
 const host = 'https://api.appworks-school.tw';
-let productQuery = window.location.search.substring(1);
+let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
 const subInfo = document.getElementsByClassName('sub-info-area')[0];
 
+// Get Product Details
 const getProductDetail = callback => {
   const xhr = new XMLHttpRequest();
-  let url = host + '/api/1.0/products/details?' + productQuery;
+  let url = host + '/api/1.0/products/details?' + query;
 
   xhr.open('GET', url);
   xhr.onreadystatechange = () => {
@@ -20,20 +21,34 @@ const getProductDetail = callback => {
   xhr.send();
 };
 
+// Render Product Details to Product Page
 const renderProductPage = data => {
   let productDtls = JSON.parse(data).data;
 
   // ======== Main Info Rendering ========
+
+  // Product Main Picture Rendering
+  const mainImgArea = document.getElementsByClassName(
+    'product-main-img-area'
+  )[0];
+  let mainImg = document.createElement('img');
+  mainImg.className = 'product-main-img';
+  mainImg.setAttribute('src', productDtls.main_image);
+  mainImgArea.appendChild(mainImg);
+
+  // Product Id Rendering
   let productId = document.createElement('div');
   productId.className = 'product-id';
   productId.innerHTML = productDtls.id;
   mainInfo.prepend(productId);
 
+  // Product Name Rendering
   let productName = document.createElement('div');
   productName.className = 'product-name';
   productName.innerHTML = productDtls.title;
   mainInfo.prepend(productName);
 
+  // Product Price Rendering
   const productPrice = document.getElementsByClassName('product-price')[0];
   productPrice.innerHTML = 'TWD.' + productDtls.price;
 
