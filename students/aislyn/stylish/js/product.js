@@ -107,7 +107,6 @@ const renderProductPage = data => {
   colorOption.addEventListener(
     'click',
     e => {
-      console.log('color option listener');
       let target = e.target;
       if (target.matches('.color-box') && !target.matches('.out-of-stock')) {
         for (let i = 0; i < colorBoxesArray.length; i++) {
@@ -151,7 +150,6 @@ const renderProductPage = data => {
   sizeOption.addEventListener(
     'click',
     e => {
-      console.log('size option listener');
       let target = e.target;
       if (target.matches('.size-box') && !target.matches('.out-of-stock')) {
         for (let i = 0; i < sizeBoxesArray.length; i++) {
@@ -167,34 +165,12 @@ const renderProductPage = data => {
   const checkAvailableStock = () => {
     const activeColor = document.querySelector('.color-area>.options>.active');
     const activeSize = document.querySelector('.size-area>.options>.active');
-    console.log(
-      'color code:',
-      activeColor.attributes.code.value,
-      ' size:',
-      activeSize.attributes.code.value
-    );
     return checkVariantStock(
       activeColor.attributes.code.value,
       activeSize.attributes.code.value
     );
   };
   let availableStock = checkAvailableStock();
-
-  // Change Quantity Limitation According to Available Stock
-
-  colorBoxesArray.forEach(item => {
-    item.addEventListener('click', () => {
-      availableStock = checkAvailableStock();
-      console.log(availableStock);
-    });
-  });
-
-  sizeBoxesArray.forEach(item => {
-    item.addEventListener('click', () => {
-      availableStock = checkAvailableStock();
-      console.log(availableStock);
-    });
-  });
 
   // Plus and Minus Button for ordering
 
@@ -212,7 +188,30 @@ const renderProductPage = data => {
   });
   plusBtn.addEventListener('click', () => {
     orderQty++;
+    if (orderQty > availableStock) {
+      orderQty = availableStock;
+    }
     qtyNumber.innerHTML = orderQty;
+  });
+
+  // Change Quantity Limitation According to Available Stock
+
+  colorBoxesArray.forEach(item => {
+    item.addEventListener('click', () => {
+      availableStock = checkAvailableStock();
+      orderQty = 1;
+      qtyNumber.innerHTML = orderQty;
+      console.log(availableStock);
+    });
+  });
+
+  sizeBoxesArray.forEach(item => {
+    item.addEventListener('click', () => {
+      availableStock = checkAvailableStock();
+      orderQty = 1;
+      qtyNumber.innerHTML = orderQty;
+      console.log(availableStock);
+    });
   });
 
   // Product Description Rendering
