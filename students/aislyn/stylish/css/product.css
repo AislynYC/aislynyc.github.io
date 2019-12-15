@@ -87,7 +87,9 @@
   color: white;
   background-color: black;
 }
-.size-area > .options > .out-of-stock {
+
+/* Out Of Stock */
+.out-of-stock {
   opacity: 0.3;
   cursor: default;
 }

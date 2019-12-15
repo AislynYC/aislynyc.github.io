@@ -1,3 +1,16 @@
+const fake = `{"data":{"id":201807201824,"category":"women","title":"前開衩扭結洋裝","description":"厚薄：薄彈性：無","price":799,"texture":"棉 100%","wash":"手洗，溫水","place":"中國","note":"實品顏色依單品照為主","story":"O.N.S is all about options, which is why we took our staple polo shirt and upgraded it with slubby linen jersey, making it even lighter for those who prefer their summer style extra-breezy.","colors":[{"code":"FFFFFF","name":"白色"},{"code":"DDFFBB","name":"亮綠"},{"code":"CCCCCC","name":"淺灰"}],"sizes":["S","M","L"],
+"variants": [
+  { "color_code": "FFFFFF", "size": "S", "stock": 0 },
+  { "color_code": "FFFFFF", "size": "M", "stock": 0 },
+  { "color_code": "FFFFFF", "size": "L", "stock": 0 },
+  { "color_code": "DDFFBB", "size": "S", "stock": 6 },
+  { "color_code": "DDFFBB", "size": "M", "stock": 0 },
+  { "color_code": "DDFFBB", "size": "L", "stock": 5 },
+  { "color_code": "CCCCCC", "size": "S", "stock": 0 },
+  { "color_code": "CCCCCC", "size": "M", "stock": 5 },
+  { "color_code": "CCCCCC", "size": "L", "stock": 9 }],
+  "main_image": "https://api.appworks-school.tw/assets/201807201824/main.jpg", "images": ["https://api.appworks-school.tw/assets/201807201824/0.jpg", "https://api.appworks-school.tw/assets/201807201824/1.jpg", "https://api.appworks-school.tw/assets/201807201824/0.jpg", "https://api.appworks-school.tw/assets/201807201824/1.jpg"]}}`;
+
 const host = 'https://api.appworks-school.tw';
 let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
@@ -12,7 +25,8 @@ const getProductDetail = callback => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        callback(xhr.responseText);
+        console.log(typeof xhr.responseText);
+        callback(fake);
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -28,9 +42,7 @@ const renderProductPage = data => {
   // ======== Main Info Rendering ========
 
   // Product Main Picture Rendering
-  const mainImgArea = document.getElementsByClassName(
-    'product-main-img-area'
-  )[0];
+  const mainImgArea = document.getElementsByClassName('product-main-img-area')[0];
   const mainImg = document.createElement('img');
   mainImg.className = 'product-main-img';
   mainImg.setAttribute('src', productDtls.main_image);
@@ -102,8 +114,15 @@ const renderProductPage = data => {
 
   const colorBoxes = colorOption.children;
   const colorBoxesArray = [].slice.call(colorBoxes);
-  //Color Box Active & Inactive
-  colorBoxesArray[0].classList.add('active');
+  // Color Box Active & Inactive
+  // set default selection
+  for (let i = 0; i < colorBoxesArray.length; i++) {
+    if (checkColorStock(colorBoxesArray[i].attributes.code.value) === true) {
+      colorBoxesArray[i].classList.add('active');
+      break;
+    }
+  }
+  // set active selection after clicking
   colorOption.addEventListener(
     'click',
     e => {
@@ -114,13 +133,28 @@ const renderProductPage = data => {
         }
         target.classList.add('active');
       }
+      for (let i = 0; i < sizeBoxesArray.length; i++) {
+        sizeBoxesArray[i].classList.remove('active');
+      }
+      for (let i = 0; i < sizeBoxesArray.length; i++) {
+        const activeColor = document.querySelector('.color-area>.options>.active');
+
+        if (
+          checkVariantStock(
+            activeColor.attributes.code.value,
+            sizeBoxesArray[i].attributes.code.value
+          ) !== 0
+        ) {
+          sizeBoxesArray[i].classList.add('active');
+          break;
+        }
+      }
     },
     true
   );
 
   // Size Boxes rendering
   const sizeOption = document.querySelector('.size-area>.options');
-  const activeColor = document.querySelector('.color-area>.options>.active');
 
   const createSizeBox = size => {
     const sizeDiv = document.createElement('div');
@@ -131,11 +165,10 @@ const renderProductPage = data => {
   };
 
   const drawSizeBox = item => {
+    const activeColor = document.querySelector('.color-area>.options>.active');
     item.sizes.forEach(size => {
-      if (checkVariantStock(activeColor.attributes.code.value, size) !== 0) {
-        createSizeBox(size);
-      } else {
-        createSizeBox(size);
+      createSizeBox(size);
+      if (checkVariantStock(activeColor.attributes.code.value, size) === 0) {
         const newestSizeBox = document.querySelector('.size-box:last-child');
         newestSizeBox.classList.add('out-of-stock');
       }
@@ -146,7 +179,20 @@ const renderProductPage = data => {
   const sizeBoxes = sizeOption.children;
   const sizeBoxesArray = [].slice.call(sizeBoxes);
   // Size Box Active & Inactive
-  sizeBoxesArray[0].classList.add('active');
+  // set default selection
+  for (let i = 0; i < sizeBoxesArray.length; i++) {
+    const activeColor = document.querySelector('.color-area>.options>.active');
+    if (
+      checkVariantStock(
+        activeColor.attributes.code.value,
+        sizeBoxesArray[i].attributes.code.value
+      ) !== 0
+    ) {
+      sizeBoxesArray[i].classList.add('active');
+      break;
+    }
+  }
+  // set active selection after clicking
   sizeOption.addEventListener(
     'click',
     e => {
@@ -165,10 +211,7 @@ const renderProductPage = data => {
   const checkAvailableStock = () => {
     const activeColor = document.querySelector('.color-area>.options>.active');
     const activeSize = document.querySelector('.size-area>.options>.active');
-    return checkVariantStock(
-      activeColor.attributes.code.value,
-      activeSize.attributes.code.value
-    );
+    return checkVariantStock(activeColor.attributes.code.value, activeSize.attributes.code.value);
   };
   let availableStock = checkAvailableStock();
 
@@ -198,10 +241,25 @@ const renderProductPage = data => {
 
   colorBoxesArray.forEach(item => {
     item.addEventListener('click', () => {
-      availableStock = checkAvailableStock();
+      const activeColor = document.querySelector('.color-area>.options>.active');
       orderQty = 1;
       qtyNumber.innerHTML = orderQty;
       console.log(availableStock);
+
+      // Update Size Out of Stock while Switching Focus of Color
+      sizeBoxesArray.forEach(size => {
+        console.log(
+          size,
+          checkVariantStock(activeColor.attributes.code.value, size.attributes.code.value),
+          'activeColor:' + activeColor.attributes.code.value
+        );
+        size.classList.remove('out-of-stock');
+        if (
+          checkVariantStock(activeColor.attributes.code.value, size.attributes.code.value) === 0
+        ) {
+          size.classList.add('out-of-stock');
+        }
+      });
     });
   });
 
