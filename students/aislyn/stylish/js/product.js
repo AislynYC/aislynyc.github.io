@@ -1,16 +1,3 @@
-const fake = `{"data":{"id":201807201824,"category":"women","title":"前開衩扭結洋裝","description":"厚薄：薄彈性：無","price":799,"texture":"棉 100%","wash":"手洗，溫水","place":"中國","note":"實品顏色依單品照為主","story":"O.N.S is all about options, which is why we took our staple polo shirt and upgraded it with slubby linen jersey, making it even lighter for those who prefer their summer style extra-breezy.","colors":[{"code":"FFFFFF","name":"白色"},{"code":"DDFFBB","name":"亮綠"},{"code":"CCCCCC","name":"淺灰"}],"sizes":["S","M","L"],
-"variants": [
-  { "color_code": "FFFFFF", "size": "S", "stock": 0 },
-  { "color_code": "FFFFFF", "size": "M", "stock": 0 },
-  { "color_code": "FFFFFF", "size": "L", "stock": 0 },
-  { "color_code": "DDFFBB", "size": "S", "stock": 6 },
-  { "color_code": "DDFFBB", "size": "M", "stock": 0 },
-  { "color_code": "DDFFBB", "size": "L", "stock": 5 },
-  { "color_code": "CCCCCC", "size": "S", "stock": 0 },
-  { "color_code": "CCCCCC", "size": "M", "stock": 5 },
-  { "color_code": "CCCCCC", "size": "L", "stock": 9 }],
-  "main_image": "https://api.appworks-school.tw/assets/201807201824/main.jpg", "images": ["https://api.appworks-school.tw/assets/201807201824/0.jpg", "https://api.appworks-school.tw/assets/201807201824/1.jpg", "https://api.appworks-school.tw/assets/201807201824/0.jpg", "https://api.appworks-school.tw/assets/201807201824/1.jpg"]}}`;
-
 const host = 'https://api.appworks-school.tw';
 let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
@@ -25,8 +12,7 @@ const getProductDetail = callback => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        console.log(typeof xhr.responseText);
-        callback(fake);
+        callback(xhr.responseText);
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
       }
@@ -244,15 +230,9 @@ const renderProductPage = data => {
       const activeColor = document.querySelector('.color-area>.options>.active');
       orderQty = 1;
       qtyNumber.innerHTML = orderQty;
-      console.log(availableStock);
 
       // Update Size Out of Stock while Switching Focus of Color
       sizeBoxesArray.forEach(size => {
-        console.log(
-          size,
-          checkVariantStock(activeColor.attributes.code.value, size.attributes.code.value),
-          'activeColor:' + activeColor.attributes.code.value
-        );
         size.classList.remove('out-of-stock');
         if (
           checkVariantStock(activeColor.attributes.code.value, size.attributes.code.value) === 0
@@ -268,7 +248,6 @@ const renderProductPage = data => {
       availableStock = checkAvailableStock();
       orderQty = 1;
       qtyNumber.innerHTML = orderQty;
-      console.log(availableStock);
     });
   });
 
