@@ -23,7 +23,7 @@ const getProductDetail = callback => {
 
 // Render Product Details to Product Page
 const renderProductPage = data => {
-  let productDtls = JSON.parse(data).data;
+  const productDtls = JSON.parse(data).data;
 
   // ======== Main Info Rendering ========
 
@@ -31,19 +31,19 @@ const renderProductPage = data => {
   const mainImgArea = document.getElementsByClassName(
     'product-main-img-area'
   )[0];
-  let mainImg = document.createElement('img');
+  const mainImg = document.createElement('img');
   mainImg.className = 'product-main-img';
   mainImg.setAttribute('src', productDtls.main_image);
   mainImgArea.appendChild(mainImg);
 
   // Product Id Rendering
-  let productId = document.createElement('div');
+  const productId = document.createElement('div');
   productId.className = 'product-id';
   productId.innerHTML = productDtls.id;
   mainInfo.prepend(productId);
 
   // Product Name Rendering
-  let productName = document.createElement('div');
+  const productName = document.createElement('div');
   productName.className = 'product-name';
   productName.innerHTML = productDtls.title;
   mainInfo.prepend(productName);
@@ -52,32 +52,168 @@ const renderProductPage = data => {
   const productPrice = document.getElementsByClassName('product-price')[0];
   productPrice.innerHTML = 'TWD.' + productDtls.price;
 
-  // Color Boxes rendering
-  const drawColorBox = item => {
-    const colorOption = document.querySelector('.color-area>.options');
+  // Check Stock by Color and Size
+  const variants = productDtls.variants;
+  const checkColorStock = color => {
+    const sizeOfSameColor = variants.filter(item => {
+      return item.color_code === color;
+    });
+    let stockOfSameColor = 0;
+    sizeOfSameColor.forEach(item => {
+      stockOfSameColor += item.stock;
+    });
+    if (stockOfSameColor !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
+  const checkVariantStock = (color, size) => {
+    const variant = variants.find(item => {
+      return item.color_code === color && item.size === size;
+    });
+    return variant.stock;
+  };
+
+  // Color Boxes rendering
+  const colorOption = document.querySelector('.color-area>.options');
+
+  const createColorBox = color => {
+    const colorDiv = document.createElement('div');
+    colorDiv.className = 'color-box';
+    colorDiv.title = color.name;
+    colorDiv.style.backgroundColor = '#' + color.code;
+    colorDiv.setAttribute('code', color.code);
+    colorOption.appendChild(colorDiv);
+  };
+  const drawColorBox = item => {
     item.colors.forEach(color => {
-      let colorDiv = document.createElement('div');
-      colorDiv.className = 'color-box';
-      colorDiv.title = color.name;
-      colorDiv.style.backgroundColor = '#' + color.code;
-      colorOption.appendChild(colorDiv);
+      if (checkColorStock(color.code) === true) {
+        createColorBox(color);
+      } else {
+        createColorBox(color);
+        const newestColorBox = document.querySelector('.color-box:last-child');
+        newestColorBox.classList.add('out-of-stock');
+      }
     });
   };
   drawColorBox(productDtls);
 
-  // Size Boxes rendering
-  const drawSizeBox = item => {
-    const sizeOption = document.querySelector('.size-area>.options');
+  const colorBoxes = colorOption.children;
+  const colorBoxesArray = [].slice.call(colorBoxes);
+  //Color Box Active & Inactive
+  colorBoxesArray[0].classList.add('active');
+  colorOption.addEventListener(
+    'click',
+    e => {
+      console.log('color option listener');
+      let target = e.target;
+      if (target.matches('.color-box') && !target.matches('.out-of-stock')) {
+        for (let i = 0; i < colorBoxesArray.length; i++) {
+          colorBoxesArray[i].classList.remove('active');
+        }
+        target.classList.add('active');
+      }
+    },
+    true
+  );
 
+  // Size Boxes rendering
+  const sizeOption = document.querySelector('.size-area>.options');
+  const activeColor = document.querySelector('.color-area>.options>.active');
+
+  const createSizeBox = size => {
+    const sizeDiv = document.createElement('div');
+    sizeDiv.className = 'size-box';
+    sizeDiv.setAttribute('code', size);
+    sizeDiv.innerHTML = size;
+    sizeOption.appendChild(sizeDiv);
+  };
+
+  const drawSizeBox = item => {
     item.sizes.forEach(size => {
-      let sizeDiv = document.createElement('div');
-      sizeDiv.className = 'size-box';
-      sizeDiv.innerHTML = size;
-      sizeOption.appendChild(sizeDiv);
+      if (checkVariantStock(activeColor.attributes.code.value, size) !== 0) {
+        createSizeBox(size);
+      } else {
+        createSizeBox(size);
+        const newestSizeBox = document.querySelector('.size-box:last-child');
+        newestSizeBox.classList.add('out-of-stock');
+      }
     });
   };
   drawSizeBox(productDtls);
+
+  const sizeBoxes = sizeOption.children;
+  const sizeBoxesArray = [].slice.call(sizeBoxes);
+  // Size Box Active & Inactive
+  sizeBoxesArray[0].classList.add('active');
+  sizeOption.addEventListener(
+    'click',
+    e => {
+      console.log('size option listener');
+      let target = e.target;
+      if (target.matches('.size-box') && !target.matches('.out-of-stock')) {
+        for (let i = 0; i < sizeBoxesArray.length; i++) {
+          sizeBoxesArray[i].classList.remove('active');
+        }
+        target.classList.add('active');
+      }
+    },
+    true
+  );
+
+  // Check Available Stock
+  const checkAvailableStock = () => {
+    const activeColor = document.querySelector('.color-area>.options>.active');
+    const activeSize = document.querySelector('.size-area>.options>.active');
+    console.log(
+      'color code:',
+      activeColor.attributes.code.value,
+      ' size:',
+      activeSize.attributes.code.value
+    );
+    return checkVariantStock(
+      activeColor.attributes.code.value,
+      activeSize.attributes.code.value
+    );
+  };
+  let availableStock = checkAvailableStock();
+
+  // Change Quantity Limitation According to Available Stock
+
+  colorBoxesArray.forEach(item => {
+    item.addEventListener('click', () => {
+      availableStock = checkAvailableStock();
+      console.log(availableStock);
+    });
+  });
+
+  sizeBoxesArray.forEach(item => {
+    item.addEventListener('click', () => {
+      availableStock = checkAvailableStock();
+      console.log(availableStock);
+    });
+  });
+
+  // Plus and Minus Button for ordering
+
+  const minusBtn = document.getElementById('qty-minus-btn');
+  const plusBtn = document.getElementById('qty-plus-btn');
+  const qtyNumber = document.getElementById('qty-number');
+  let orderQty = 1;
+  qtyNumber.innerHTML = orderQty;
+  minusBtn.addEventListener('click', () => {
+    orderQty--;
+    if (orderQty <= 1) {
+      orderQty = 1;
+    }
+    qtyNumber.innerHTML = orderQty;
+  });
+  plusBtn.addEventListener('click', () => {
+    orderQty++;
+    qtyNumber.innerHTML = orderQty;
+  });
 
   // Product Description Rendering
   const descDiv = document.getElementsByClassName('desc')[0];
@@ -94,7 +230,7 @@ const renderProductPage = data => {
   // ======== Sub Info Rendering ========
 
   // Sub Info Story Rendering
-  let subStory = document.createElement('div');
+  const subStory = document.createElement('div');
   subStory.className = 'sub-info-story';
   subStory.innerHTML = productDtls.story;
   subInfo.appendChild(subStory);
@@ -106,10 +242,10 @@ const renderProductPage = data => {
   subImgArea.className = 'sub-img-area';
 
   subImgs.forEach(item => {
-    let subImgWrap = document.createElement('div');
+    const subImgWrap = document.createElement('div');
     subImgWrap.className = 'product-sub-img-wrap';
 
-    let subImg = document.createElement('img');
+    const subImg = document.createElement('img');
     subImg.className = 'product-sub-img';
     subImg.setAttribute('src', item);
     subImgWrap.appendChild(subImg);

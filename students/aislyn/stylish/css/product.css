@@ -45,13 +45,15 @@
   display: flex;
 }
 .color-area > .options > .active {
-  outline: 1px solid #979797;
+  outline: 1px solid #868585;
 }
 .color-box {
   width: 24px;
   height: 24px;
   margin-right: 20px;
   border: 5px solid white;
+  outline: 1px solid #d8d7d7c7;
+  cursor: pointer;
 }
 
 /* Size Section */
@@ -78,11 +80,18 @@
   text-align: center;
   padding: 7px;
   border-radius: 50%;
+  font-weight: 500;
+  cursor: pointer;
 }
 .size-area > .options > .active {
   color: white;
   background-color: black;
 }
+.size-area > .options > .out-of-stock {
+  opacity: 0.3;
+  cursor: default;
+}
+
 /* Quantity Section */
 .quantity-area {
   margin-top: 15px;
@@ -103,6 +112,11 @@
   color: #8b572a;
 }
 
+#qty-minus-btn,
+#qty-plus-btn {
+  cursor: pointer;
+}
+
 /* Add to Cart */
 .add-to-cart-btn {
   box-sizing: border-box;
@@ -112,6 +126,7 @@
   padding: 10px;
   text-align: center;
   background-color: black;
+  cursor: pointer;
 }
 
 /* Description */
