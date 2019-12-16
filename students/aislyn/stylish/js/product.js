@@ -3,6 +3,8 @@ let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
 const subInfo = document.getElementsByClassName('sub-info-area')[0];
 const addToCartBtn = document.getElementsByClassName('add-to-cart-btn')[0];
+const cartQtyWeb = document.getElementsByClassName('cart-qty')[0];
+const cartQtyMobile = document.getElementsByClassName('cart-qty')[1];
 let cart;
 
 // Get Cart Data from Local Storage
@@ -11,6 +13,23 @@ if (localStorage['cart'] !== undefined) {
 } else {
   cart = {};
 }
+
+// Update Cart Badge
+const updateCartBadge = () => {
+  if (cart !== {}) {
+    let cartCount = 0;
+    for (let [key, value] of Object.entries(cart)) {
+      cartCount += value.qty;
+    }
+
+    cartQtyWeb.innerHTML = cartCount;
+    cartQtyMobile.innerHTML = cartCount;
+  } else {
+    cartQtyWeb.innerHTML = '0';
+    cartQtyMobile.innerHTML = '0';
+  }
+};
+updateCartBadge();
 
 // Get Product Details
 const getProductDetail = callback => {
@@ -345,6 +364,7 @@ const addToCart = data => {
     }
     // Store Add To Cart Data to LocalStorage
     localStorage['cart'] = JSON.stringify(cart);
+    updateCartBadge();
   });
 };
 

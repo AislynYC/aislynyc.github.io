@@ -46,6 +46,11 @@ html {
 }
 .cart-qty {
   position: absolute;
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+  line-height: 22px;
+  text-align: center;
   width: 22px;
   height: 22px;
   background-color: #8b572a;

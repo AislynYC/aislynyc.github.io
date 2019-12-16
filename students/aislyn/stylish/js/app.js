@@ -10,9 +10,35 @@ const searchPanel = document.getElementsByClassName('search-panel')[0];
 const headerTool = document.getElementsByClassName('header-tools-mini')[0];
 const slideArea = document.getElementsByClassName('slide-area')[0];
 const slideDot = document.getElementsByClassName('slide-dot')[0];
+const cartQtyWeb = document.getElementsByClassName('cart-qty')[0];
+const cartQtyMobile = document.getElementsByClassName('cart-qty')[1];
 let nextPage = undefined;
 let currentCategory = 'all';
 let isLoading = false;
+
+// Get Cart Data from Local Storage
+if (localStorage['cart'] !== undefined) {
+  cart = JSON.parse(localStorage['cart']);
+} else {
+  cart = {};
+}
+
+// Update Cart Badge
+const updateCartBadge = () => {
+  if (cart !== {}) {
+    let cartCount = 0;
+    for (let [key, value] of Object.entries(cart)) {
+      cartCount += value.qty;
+    }
+
+    cartQtyWeb.innerHTML = cartCount;
+    cartQtyMobile.innerHTML = cartCount;
+  } else {
+    cartQtyWeb.innerHTML = '0';
+    cartQtyMobile.innerHTML = '0';
+  }
+};
+updateCartBadge();
 
 //Get Query String & Assign CurrentCategory
 function getQueryString(category) {
@@ -110,8 +136,7 @@ const search = callback => {
         if (xhr.responseText != '{"data":[]}') {
           callback(xhr.responseText);
         } else {
-          rowDiv.innerHTML =
-            '<div class="no-result">搜尋結果：無相關商品</div>';
+          rowDiv.innerHTML = '<div class="no-result">搜尋結果：無相關商品</div>';
         }
       } else {
         alert(`[${xhr.status}] ${xhr.statusText}`);
@@ -141,8 +166,7 @@ searchInput.addEventListener('click', () => {
 
 window.addEventListener('scroll', () => {
   if (
-    document.documentElement.scrollTop + window.innerHeight + 60 >=
-      document.body.offsetHeight &&
+    document.documentElement.scrollTop + window.innerHeight + 60 >= document.body.offsetHeight &&
     nextPage !== undefined &&
     isLoading === false
   ) {
