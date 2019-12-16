@@ -2,6 +2,7 @@ const host = 'https://api.appworks-school.tw';
 let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
 const subInfo = document.getElementsByClassName('sub-info-area')[0];
+const addToCartBtn = document.getElementsByClassName('add-to-cart-btn')[0];
 let cart;
 
 // Get Cart Data from Local Storage
@@ -302,6 +303,35 @@ const renderProductPage = data => {
   });
 };
 
+const addToCart = data => {
+  const productDtls = JSON.parse(data).data;
+  addToCartBtn.addEventListener('click', () => {
+    console.log(qtyNumber.value);
+    const qtyNumber = document.getElementById('qty-number');
+    const activeColor = document.querySelector('.color-area>.options>.active');
+    const activeSize = document.querySelector('.size-area>.options>.active');
+    let productCode =
+      productDtls.id + activeColor.attributes.code.value + activeSize.attributes.code.value;
+    if (cart[productCode] === undefined) {
+      cart[productCode] = {
+        id: productDtls.id,
+        name: productDtls.title,
+        price: productDtls.price,
+        color: {
+          name: activeColor.attributes.title.value,
+          code: activeColor.attributes.code.value
+        },
+        size: activeSize.attributes.code.value,
+        qty: qtyNumber.value
+      };
+    } else {
+      cart[productCode].qty += qtyNumber.value;
+    }
+    localStorage['cart'] = JSON.stringify(cart);
+  });
+};
+
 getProductDetail(response => {
   renderProductPage(response);
+  addToCart(response);
 });
