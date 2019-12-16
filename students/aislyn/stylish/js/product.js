@@ -291,8 +291,8 @@ const renderProductPage = data => {
                 <div class="desc-texture">${productDtls.texture}</div>
                 <div class="desc-description">${descDescription}</div>
                 <br />
-                <div class="desc-wash">${productDtls.wash}</div>
-                <div class="desc-place">${productDtls.place}</div>`;
+                <div class="desc-wash">清洗：${productDtls.wash}</div>
+                <div class="desc-place">產地：${productDtls.place}</div>`;
   descDiv.innerHTML = template;
 
   // ======== Sub Info Rendering ========
