@@ -41,6 +41,21 @@ html {
   display: none;
 }
 
+#cart-btn {
+  position: relative;
+}
+.cart-qty {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background-color: #8b572a;
+  opacity: 0.85;
+  border-radius: 50%;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
 /* Search */
 .search-panel {
   margin: 0 auto;
@@ -260,6 +275,12 @@ html {
   height: 44px;
   font-size: 1.14rem;
   line-height: 44px;
+}
+
+#mobile-cart-btn {
+  position: relative;
+  display: inline-block;
+  height: 44px;
 }
 
 /*************** Footer ***************/

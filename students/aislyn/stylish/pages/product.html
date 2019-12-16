@@ -23,12 +23,9 @@
             <div class="search-panel">
               <input type="text" id="search-input" />
             </div>
-            <img class="header-tool-btn" src="../images/cart.png" alt="cart" />
-            <img
-              class="header-tool-btn"
-              src="../images/member.png"
-              alt="member"
-            />
+            <div class="header-tool-btn" id="cart-btn"><img src="../images/cart.png" alt="cart" /><div class="cart-qty"></div></div>
+            <div class="header-tool-btn" id="member-btn"><img  src="../images/member.png" alt="member" /></div>
+            
           </div>
           <nav>
             <ul class="main-nav">
@@ -103,11 +100,10 @@
       <div class="mobile-tool">
         <a href="#" class="mobile-tool-btn">
           <div class="mobile-tool-wrap">
-            <img
-              class="mobile-tool-logo"
-              src="../images/cart-mobile.png"
-              alt="cart"
-            />
+            <div class="mobile-tool-logo" id="mobile-cart-btn">
+              <img src="../images/cart-mobile.png" alt="cart" />
+              <div class="cart-qty"></div>
+            </div>
             <span class="mobile-tool-tag">購物車</span>
           </div>
         </a>
