@@ -2,6 +2,14 @@ const host = 'https://api.appworks-school.tw';
 let query = window.location.search.substring(1);
 const mainInfo = document.getElementsByClassName('main-info-area')[0];
 const subInfo = document.getElementsByClassName('sub-info-area')[0];
+let cart;
+
+// Get Cart Data from Local Storage
+if (localStorage['cart'] !== undefined) {
+  cart = JSON.parse(localStorage['cart']);
+} else {
+  cart = {};
+}
 
 // Get Product Details
 const getProductDetail = callback => {
