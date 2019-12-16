@@ -305,28 +305,45 @@ const renderProductPage = data => {
 
 const addToCart = data => {
   const productDtls = JSON.parse(data).data;
+  // Check Stock
+  const variants = productDtls.variants;
+  const checkVariantStock = (color, size) => {
+    const variant = variants.find(item => {
+      return item.color_code === color && item.size === size;
+    });
+    return variant.stock;
+  };
+  // Add to Cart Clicking event
   addToCartBtn.addEventListener('click', () => {
-    console.log(qtyNumber.value);
     const qtyNumber = document.getElementById('qty-number');
-    const activeColor = document.querySelector('.color-area>.options>.active');
-    const activeSize = document.querySelector('.size-area>.options>.active');
-    let productCode =
-      productDtls.id + activeColor.attributes.code.value + activeSize.attributes.code.value;
+    const activeColorCode = document.querySelector('.color-area>.options>.active').attributes.code
+      .value;
+    const activeColorTitle = document.querySelector('.color-area>.options>.active').attributes.title
+      .value;
+    const activeSizeCode = document.querySelector('.size-area>.options>.active').attributes.code
+      .value;
+    let productCode = productDtls.id + activeColorCode + activeSizeCode;
+
     if (cart[productCode] === undefined) {
       cart[productCode] = {
         id: productDtls.id,
         name: productDtls.title,
         price: productDtls.price,
         color: {
-          name: activeColor.attributes.title.value,
-          code: activeColor.attributes.code.value
+          name: activeColorTitle,
+          code: activeColorCode
         },
-        size: activeSize.attributes.code.value,
-        qty: qtyNumber.value
+        size: activeSizeCode,
+        qty: parseInt(qtyNumber.innerHTML)
       };
     } else {
-      cart[productCode].qty += qtyNumber.value;
+      cart[productCode].qty += parseInt(qtyNumber.innerHTML);
+      // if order quantity more than stock quantity, make the order quantity equal to stock quantity
+      if (cart[productCode].qty > checkVariantStock(activeColorCode, activeSizeCode)) {
+        cart[productCode].qty = checkVariantStock(activeColorCode, activeSizeCode);
+      }
     }
+    // Store Add To Cart Data to LocalStorage
     localStorage['cart'] = JSON.stringify(cart);
   });
 };
