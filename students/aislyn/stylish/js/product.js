@@ -101,14 +101,14 @@ const renderProductPage = data => {
   const colorBoxes = colorOption.children;
   const colorBoxesArray = [].slice.call(colorBoxes);
   // Color Box Active & Inactive
-  // set default selection
+  // --- set default selection
   for (let i = 0; i < colorBoxesArray.length; i++) {
     if (checkColorStock(colorBoxesArray[i].attributes.code.value) === true) {
       colorBoxesArray[i].classList.add('active');
       break;
     }
   }
-  // set active selection after clicking
+  // --- set active selection after clicking
   colorOption.addEventListener(
     'click',
     e => {
@@ -139,7 +139,7 @@ const renderProductPage = data => {
     true
   );
 
-  // Size Boxes rendering
+  // Size Boxes Rendering
   const sizeOption = document.querySelector('.size-area>.options');
 
   const createSizeBox = size => {
@@ -165,7 +165,7 @@ const renderProductPage = data => {
   const sizeBoxes = sizeOption.children;
   const sizeBoxesArray = [].slice.call(sizeBoxes);
   // Size Box Active & Inactive
-  // set default selection
+  // --- set default selection
   for (let i = 0; i < sizeBoxesArray.length; i++) {
     const activeColor = document.querySelector('.color-area>.options>.active');
     if (
@@ -178,7 +178,7 @@ const renderProductPage = data => {
       break;
     }
   }
-  // set active selection after clicking
+  // --- set active selection after clicking
   sizeOption.addEventListener(
     'click',
     e => {
@@ -206,8 +206,10 @@ const renderProductPage = data => {
   const minusBtn = document.getElementById('qty-minus-btn');
   const plusBtn = document.getElementById('qty-plus-btn');
   const qtyNumber = document.getElementById('qty-number');
+  // --- set default value
   let orderQty = 1;
   qtyNumber.innerHTML = orderQty;
+  // --- click event for Minus button
   minusBtn.addEventListener('click', () => {
     orderQty--;
     if (orderQty <= 1) {
@@ -215,6 +217,7 @@ const renderProductPage = data => {
     }
     qtyNumber.innerHTML = orderQty;
   });
+  // --- click event for Plus button
   plusBtn.addEventListener('click', () => {
     orderQty++;
     if (orderQty > availableStock) {
@@ -224,14 +227,14 @@ const renderProductPage = data => {
   });
 
   // Change Quantity Limitation According to Available Stock
-
   colorBoxesArray.forEach(item => {
     item.addEventListener('click', () => {
       const activeColor = document.querySelector('.color-area>.options>.active');
+      // --- reset to default qty while switching focus of color option
       orderQty = 1;
       qtyNumber.innerHTML = orderQty;
 
-      // Update Size Out of Stock while Switching Focus of Color
+      // --- update size out of stock while switching focus of color option
       sizeBoxesArray.forEach(size => {
         size.classList.remove('out-of-stock');
         if (
@@ -246,6 +249,7 @@ const renderProductPage = data => {
   sizeBoxesArray.forEach(item => {
     item.addEventListener('click', () => {
       availableStock = checkAvailableStock();
+      // --- reset to default qty while switching focus of size option
       orderQty = 1;
       qtyNumber.innerHTML = orderQty;
     });
