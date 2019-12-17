@@ -14,8 +14,9 @@ if (localStorage['cart'] !== undefined) {
 const updateCartBadge = () => {
   if (cart !== {}) {
     let cartCount = 0;
+
     for (let [key, value] of Object.entries(cart)) {
-      cartCount += value.qty;
+      cartCount += parseInt(value.qty);
     }
 
     cartQtyWeb.innerHTML = cartCount;
@@ -25,7 +26,6 @@ const updateCartBadge = () => {
     cartQtyMobile.innerHTML = '0';
   }
 };
-updateCartBadge();
 
 // Get Product Details
 const getProductDetail = (productId, variant, callback) => {
@@ -125,12 +125,13 @@ const renderSelProducts = (variant, data) => {
   qtyLabel.innerHTML = '數量';
   const qtySelect = document.createElement('select');
   qtySelect.className = 'qty-select';
+  qtySelect.setAttribute('product-code', variant.productCode);
 
-  for (let i = 0; i <= stock; i++) {
+  for (let i = 1; i <= stock; i++) {
     let qtyOption = document.createElement('option');
     qtyOption.setAttribute('value', i);
     qtyOption.innerHTML = i;
-    if (i === variant.qty) {
+    if (i == variant.qty) {
       qtyOption.setAttribute('selected', 'selected');
     }
     qtySelect.append(qtyOption);
@@ -176,17 +177,35 @@ const checkCart = () => {
       renderSelProducts(variant, response);
     });
   });
+  // Update Cart Badge while qty change
+  updateCartBadge();
 };
 
 checkCart();
 
-// Remove from Cart
+// Remove from Cart Feature
 rowDiv.addEventListener('click', e => {
   let targetElement = e.target;
   while (targetElement !== null) {
     if (targetElement.matches('.remove-btn')) {
       let productCode = targetElement.getAttribute('product-code');
       delete cart[productCode];
+      rowDiv.innerHTML = '';
+      checkCart();
+    }
+    targetElement = targetElement.parentElement;
+  }
+});
+
+// Quantity Modifying Feature
+rowDiv.addEventListener('change', e => {
+  let targetElement = e.target;
+
+  while (targetElement !== null) {
+    if (targetElement.matches('.qty-select')) {
+      let productCode = targetElement.getAttribute('product-code');
+      console.log(cart[productCode].qty);
+      cart[productCode].qty = targetElement.options[targetElement.selectedIndex].value;
       rowDiv.innerHTML = '';
       checkCart();
     }

@@ -19,7 +19,7 @@ const updateCartBadge = () => {
   if (cart !== {}) {
     let cartCount = 0;
     for (let [key, value] of Object.entries(cart)) {
-      cartCount += value.qty;
+      cartCount += parseInt(value.qty);
     }
 
     cartQtyWeb.innerHTML = cartCount;
