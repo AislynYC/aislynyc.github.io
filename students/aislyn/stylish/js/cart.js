@@ -122,6 +122,7 @@ const renderSelProducts = (variant, data) => {
   const qtyDiv = document.createElement('div');
   qtyDiv.className = 'qty-wrap';
   const qtyLabel = document.createElement('div');
+  qtyLabel.className = 'list-label';
   qtyLabel.innerHTML = '數量';
   const qtySelect = document.createElement('select');
   qtySelect.className = 'qty-select';
@@ -141,6 +142,7 @@ const renderSelProducts = (variant, data) => {
   const priceDiv = document.createElement('div');
   priceDiv.className = 'priceWrap';
   const priceLabel = document.createElement('div');
+  priceLabel.className = 'list-label';
   priceLabel.innerHTML = '單價';
   const price = document.createElement('div');
   price.innerHTML = 'NT.' + dataObj.price;
@@ -150,6 +152,7 @@ const renderSelProducts = (variant, data) => {
   const subTotalDiv = document.createElement('div');
   subTotalDiv.className = 'sub-total-wrap';
   const subTotalLabel = document.createElement('div');
+  subTotalLabel.className = 'list-label';
   subTotalLabel.innerHTML = '小計';
   const subTotal = document.createElement('div');
   subTotal.className = 'sub-total';

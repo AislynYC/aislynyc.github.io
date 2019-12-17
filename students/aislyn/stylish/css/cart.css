@@ -48,12 +48,31 @@ input[type='text'] {
   flex-direction: column;
 }
 
+.product-name,
+.product-id {
+  padding: 3px 0;
+}
+
+.product-id {
+  margin-bottom: 20px;
+}
+
+.product-color,
+.product-size {
+  padding: 3px 0;
+}
+
 .remove-btn {
   cursor: pointer;
 }
 .lower-item {
   display: flex;
   justify-content: space-around;
+}
+
+.list-label {
+  padding: 5px 0;
+  font-size: 16px;
 }
 
 /* Form Area */
