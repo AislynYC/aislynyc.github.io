@@ -1,0 +1,39 @@
+.section-title {
+  font-weight: bold;
+  padding: 20px 10px 10px;
+  font-size: 16px;
+  border-bottom: 1px solid black;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-item {
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+}
+
+.upper-item {
+  display: flex;
+  justify-content: space-between;
+}
+.product-img-wrap {
+  width: 114px;
+}
+.product-img {
+  width: 100%;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.remove-btn {
+  cursor: pointer;
+}
+.lower-item {
+  display: flex;
+  justify-content: space-around;
+}
