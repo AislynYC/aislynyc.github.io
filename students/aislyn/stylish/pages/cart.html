@@ -68,11 +68,11 @@
         <!-- CART - SHIPPING FORM Start -->
         <div class="shipping-section">
           <div class="shipping-selection">
-            <div>配送國家</div>
+            <div class="shipping-label">配送國家</div>
             <select name="delivery-country" class="delivery" id="delivery-country">
               <option value="taiwan">台灣或離島</option>
             </select>
-            <div>付款方式</div>
+            <div class="label">付款方式</div>
             <select name="delivery-service" class="delivery" id="delivery-service">
               <option value="home-delivery">宅配貨到付款</option>
             </select>
@@ -87,35 +87,37 @@
         <!-- CART - RECIPIENT FORM Start -->
         <div class="recipient-section">
           <div class="section-title">收件資料</div>
-          <div class="recipient-name">
+          <div class="recipient-name input-group">
             <label for="name-input">收件人姓名</label>
             <input type="text" name="name-input" id="name-input" />
           </div>
-          <div class="recipient-email">
+          <div class="recipient-email input-group">
             <label for="email-input">Email</label>
             <input type="text" name="email-input" id="email-input" />
           </div>
-          <div class="recipient-phone">
+          <div class="recipient-phone input-group">
             <label for="phone-input">手機號碼</label>
             <input type="text" name="phone-input" id="phone-input" />
           </div>
-          <div class="recipient-email">
+          <div class="recipient-email input-group">
             <label for="address-input">收件地址</label>
             <input type="text" name="address-input" id="address-input" />
           </div>
           <div class="recipient-prefer-time">
-            <p>配送時間</p>
-            <div>
-              <input type="radio" id="before-noon" name="prefer-time" value="before-noon" />
-              <label for="before-noon">08:00 - 12:00</label>
-            </div>
-            <div>
-              <input type="radio" id="after-noon" name="prefer-time" value="after-noon" />
-              <label for="after-noon">14:00 - 18:00</label>
-            </div>
-            <div>
-              <input type="radio" id="no-prefer" name="prefer-time" value="no-prefer" checked />
-              <label for="no-prefer">不指定</label>
+            <p class="label">配送時間</p>
+            <div id="time-selections">
+              <div class="time-selection">
+                <input type="radio" id="before-noon" name="prefer-time" value="before-noon" />
+                <label for="before-noon">08:00 - 12:00</label>
+              </div>
+              <div class="time-selection">
+                <input type="radio" id="after-noon" name="prefer-time" value="after-noon" />
+                <label for="after-noon">14:00 - 18:00</label>
+              </div>
+              <div class="time-selection">
+                <input type="radio" id="no-prefer" name="prefer-time" value="no-prefer" checked />
+                <label for="no-prefer">不指定</label>
+              </div>
             </div>
           </div>
         </div>
@@ -124,7 +126,7 @@
         <!-- CART - PAYMENT FORM Start -->
         <div class="payment-section">
           <div class="section-title">付款資料</div>
-          <div class="credit-card-number">
+          <div class="credit-card-number input-group">
             <label for="card-number">信用卡號碼</label>
             <input
               type="text"
@@ -134,11 +136,11 @@
               placeholder="**** **** **** ****"
             />
           </div>
-          <div class="credit-card-exp">
+          <div class="credit-card-exp input-group">
             <label for="card-exp">有效期限</label>
             <input type="text" name="card-exp" id="card-exp" placeholder="MM / YY" />
           </div>
-          <div class="credit-card-ccv">
+          <div class="credit-card-ccv input-group">
             <label for="card-ccv">安全碼</label>
             <input type="text" name="card-ccv" id="card-ccv" placeholder="ccv" />
           </div>
@@ -147,6 +149,26 @@
 
         <!-- CART - CONFIRM SECTION Start -->
         <div class="confirm-section">
+          <div class="calc">
+            <div class="calc-result">
+              <p>總金額</p>
+              <div class="calc-value-wrap">
+                NT. <span class="calc-value" id="total-price"></span>
+              </div>
+            </div>
+            <div class="calc-result">
+              <p>運費</p>
+              <div class="calc-value-wrap">
+                NT. <span class="calc-value" id="freight-fee">30</span>
+              </div>
+            </div>
+            <div class="calc-result">
+              <p>應付金額</p>
+              <div class="calc-value-wrap">
+                NT. <span class="calc-value" id="final-price"></span>
+              </div>
+            </div>
+          </div>
           <div class="confirm-btn">確認付款</div>
         </div>
         <!-- CART - CONFIRM SECTION  End -->

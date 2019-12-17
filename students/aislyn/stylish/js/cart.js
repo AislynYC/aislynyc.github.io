@@ -1,7 +1,7 @@
 const host = 'https://api.appworks-school.tw';
 const cartQtyWeb = document.getElementsByClassName('cart-qty')[0];
 const cartQtyMobile = document.getElementsByClassName('cart-qty')[1];
-const rowDiv = document.getElementsByClassName('row')[0];
+const listDiv = document.getElementsByClassName('list')[0];
 
 // Get Cart Data from Local Storage
 if (localStorage['cart'] !== undefined) {
@@ -72,7 +72,7 @@ const renderSelProducts = (variant, data) => {
   const lowerItem = document.createElement('div');
   lowerItem.className = 'lower-item';
 
-  rowDiv.appendChild(productList);
+  listDiv.appendChild(productList);
   productList.appendChild(productItem);
   productItem.appendChild(upperItem);
   productItem.appendChild(lowerItem);
@@ -152,16 +152,31 @@ const renderSelProducts = (variant, data) => {
   const subTotalLabel = document.createElement('div');
   subTotalLabel.innerHTML = '小計';
   const subTotal = document.createElement('div');
+  subTotal.className = 'sub-total';
   subTotal.innerHTML = dataObj.price * qtySelect.value;
 
   subTotalDiv.append(subTotalLabel, subTotal);
   lowerItem.append(qtyDiv, priceDiv, subTotalDiv);
 
+  // Calculate Total Price
+  const subTotals = document.getElementsByClassName('sub-total');
+  const totalPriceSpan = document.getElementById('total-price');
+  const freightFeeSpan = document.getElementById('freight-fee');
+  const finalPriceSpan = document.getElementById('final-price');
+  let total = 0;
+
+  for (let i = 0; i < subTotals.length; i++) {
+    total += parseInt(subTotal.innerHTML);
+  }
+
+  totalPriceSpan.innerHTML = total;
+  finalPriceSpan.innerHTML = total + parseInt(freightFeeSpan.innerHTML);
+
   // Store Updated Cart to Local Storage
   localStorage['cart'] = JSON.stringify(cart);
 };
 
-// Check Local Storage
+// Check Cart Data
 const checkCart = () => {
   Object.keys(cart).forEach(productCode => {
     const selProductDtls = cart[productCode];
@@ -184,13 +199,13 @@ const checkCart = () => {
 checkCart();
 
 // Remove from Cart Feature
-rowDiv.addEventListener('click', e => {
+listDiv.addEventListener('click', e => {
   let targetElement = e.target;
   while (targetElement !== null) {
     if (targetElement.matches('.remove-btn')) {
       let productCode = targetElement.getAttribute('product-code');
       delete cart[productCode];
-      rowDiv.innerHTML = '';
+      listDiv.innerHTML = '';
       checkCart();
     }
     targetElement = targetElement.parentElement;
@@ -198,7 +213,7 @@ rowDiv.addEventListener('click', e => {
 });
 
 // Quantity Modifying Feature
-rowDiv.addEventListener('change', e => {
+listDiv.addEventListener('change', e => {
   let targetElement = e.target;
 
   while (targetElement !== null) {
@@ -206,7 +221,7 @@ rowDiv.addEventListener('change', e => {
       let productCode = targetElement.getAttribute('product-code');
       console.log(cart[productCode].qty);
       cart[productCode].qty = targetElement.options[targetElement.selectedIndex].value;
-      rowDiv.innerHTML = '';
+      listDiv.innerHTML = '';
       checkCart();
     }
     targetElement = targetElement.parentElement;
