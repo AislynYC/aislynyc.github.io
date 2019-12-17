@@ -1,6 +1,7 @@
 .content-area {
   width: 90%;
   margin: 0 auto;
+  color: #3f3a3a;
 }
 
 label,
@@ -18,24 +19,29 @@ input[type='text'] {
 
 .section-title {
   font-weight: bold;
-  padding: 20px 10px 10px;
+  padding: 20px 10px 10px 0;
   font-size: 16px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #3f3a3a;
 }
-.row {
-  display: flex;
-  flex-direction: column;
+
+.info-title {
+  display: none;
 }
 
 .product-item {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #3f3a3a;
   padding: 10px 0;
+  display: flex;
+
+  align-items: center;
+  flex-flow: wrap;
 }
 
-.upper-item {
+.img-info-wrap {
   display: flex;
-  justify-content: space-between;
+  width: 85%;
 }
+
 .product-img-wrap {
   width: 114px;
 }
@@ -46,6 +52,8 @@ input[type='text'] {
 .product-info {
   display: flex;
   flex-direction: column;
+  padding-left: 10px;
+  width: 300px;
 }
 
 .product-name,
@@ -62,17 +70,25 @@ input[type='text'] {
   padding: 3px 0;
 }
 
-.remove-btn {
-  cursor: pointer;
+.remove-btn-wrap {
+  width: 40px;
 }
-.lower-item {
-  display: flex;
-  justify-content: space-around;
+
+.remove-btn {
+  width: 100%;
+  cursor: pointer;
 }
 
 .list-label {
   padding: 5px 0;
   font-size: 16px;
+}
+
+.qty-wrap,
+.price-wrap,
+.sub-total-wrap {
+  flex: auto;
+  text-align: center;
 }
 
 /* Form Area */
@@ -139,4 +155,89 @@ input[type='text'] {
   text-align: center;
   line-height: 30px;
   letter-spacing: 3.2px;
+}
+
+/************==== Media Queries =====***********/
+@media (min-width: 560px) {
+  .content-area {
+    margin-top: 20px;
+  }
+  .img-info-wrap {
+    width: 90%;
+  }
+}
+@media (min-width: 768px) {
+  .content-area {
+    margin-top: 50px;
+  }
+  .list {
+    border: 1px solid #979797;
+    padding: 30px;
+  }
+  .section-title {
+    display: flex;
+    border: none;
+  }
+  #cart-title {
+    width: 400px;
+  }
+  .info-title {
+    font-size: 16px;
+    display: block;
+    flex: auto;
+    text-align: center;
+  }
+  #block {
+    width: 40px;
+  }
+  .product-item {
+    border: none;
+  }
+  .img-info-wrap {
+    display: flex;
+    width: 400px;
+  }
+  .remove-btn-wrap {
+    order: 5;
+  }
+
+  .remove-btn {
+    vertical-align: middle;
+  }
+
+  .list-label {
+    display: none;
+  }
+
+  .confirm-btn {
+    width: 60%;
+    position: absolute;
+    right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-area {
+    width: 80%;
+    margin-top: 0;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .content-area {
+    width: 60%;
+    margin-top: 0;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .info-title {
+    font-size: 18px;
+  }
 }

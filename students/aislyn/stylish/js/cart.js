@@ -67,15 +67,12 @@ const renderSelProducts = (variant, data) => {
   const productItem = document.createElement('div');
   productItem.className = 'product-item';
 
-  const upperItem = document.createElement('div');
-  upperItem.className = 'upper-item';
-  const lowerItem = document.createElement('div');
-  lowerItem.className = 'lower-item';
-
   listDiv.appendChild(productList);
   productList.appendChild(productItem);
-  productItem.appendChild(upperItem);
-  productItem.appendChild(lowerItem);
+
+  const imgInfoWrap = document.createElement('div');
+  imgInfoWrap.className = 'img-info-wrap';
+  productItem.appendChild(imgInfoWrap);
 
   // Create Product Image
   const productImgWrap = document.createElement('div');
@@ -86,7 +83,7 @@ const renderSelProducts = (variant, data) => {
   productImg.setAttribute('src', dataObj.main_image);
 
   productImgWrap.appendChild(productImg);
-  upperItem.appendChild(productImgWrap);
+  imgInfoWrap.appendChild(productImgWrap);
 
   // Create Product Info
   const productInfo = document.createElement('div');
@@ -104,8 +101,8 @@ const renderSelProducts = (variant, data) => {
   productSize.className = 'product-size';
   productSize.innerHTML = '尺寸｜' + variant.size;
 
-  upperItem.appendChild(productInfo);
   productInfo.append(productName, productId, productColor, productSize);
+  imgInfoWrap.appendChild(productInfo);
 
   // Create Remove Button
   const removeBtnWrap = document.createElement('div');
@@ -115,7 +112,7 @@ const renderSelProducts = (variant, data) => {
   removeBtn.setAttribute('src', '../images/cart-remove.png');
   removeBtn.setAttribute('product-code', variant.productCode);
 
-  upperItem.appendChild(removeBtnWrap);
+  productItem.appendChild(removeBtnWrap);
   removeBtnWrap.appendChild(removeBtn);
 
   // Create Order Calculator for Items
@@ -140,7 +137,7 @@ const renderSelProducts = (variant, data) => {
   qtyDiv.append(qtyLabel, qtySelect);
 
   const priceDiv = document.createElement('div');
-  priceDiv.className = 'priceWrap';
+  priceDiv.className = 'price-wrap';
   const priceLabel = document.createElement('div');
   priceLabel.className = 'list-label';
   priceLabel.innerHTML = '單價';
@@ -154,12 +151,16 @@ const renderSelProducts = (variant, data) => {
   const subTotalLabel = document.createElement('div');
   subTotalLabel.className = 'list-label';
   subTotalLabel.innerHTML = '小計';
-  const subTotal = document.createElement('div');
+
+  const subTotalWrap = document.createElement('div');
+  subTotalWrap.className = 'sub-total-wrap';
+  subTotalWrap.innerHTML = 'NT.';
+  const subTotal = document.createElement('span');
   subTotal.className = 'sub-total';
   subTotal.innerHTML = dataObj.price * qtySelect.value;
-
-  subTotalDiv.append(subTotalLabel, subTotal);
-  lowerItem.append(qtyDiv, priceDiv, subTotalDiv);
+  subTotalWrap.append(subTotal);
+  subTotalDiv.append(subTotalLabel, subTotalWrap);
+  productItem.append(qtyDiv, priceDiv, subTotalDiv);
 
   // Calculate Total Price
   const subTotals = document.getElementsByClassName('sub-total');
