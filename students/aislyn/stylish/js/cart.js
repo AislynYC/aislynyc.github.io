@@ -231,3 +231,112 @@ listDiv.addEventListener('change', e => {
     targetElement = targetElement.parentElement;
   }
 });
+
+// TapPay
+
+const tapPay = () => {
+  TPDirect.setupSDK(
+    12348,
+    'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF',
+    'sandbox'
+  );
+
+  TPDirect.card.setup({
+    fields: {
+      number: {
+        // css selector
+        element: '#card-number',
+        placeholder: '**** **** **** ****'
+      },
+      expirationDate: {
+        // DOM object
+        element: document.getElementById('card-expiration-date'),
+        placeholder: 'MM / YY'
+      },
+      ccv: {
+        element: '#card-ccv',
+        placeholder: 'ccv'
+      }
+    },
+    styles: {
+      // Style all elements
+      input: {
+        color: 'gray'
+      },
+      // Styling ccv field
+      'input.ccv': {
+        'font-size': '16px'
+      },
+      // Styling expiration-date field
+      'input.expiration-date': {
+        'font-size': '16px'
+      },
+      // Styling card-number field
+      'input.card-number': {
+        'font-size': '16px'
+      },
+      // style focus state
+      ':focus': {
+        // 'color': 'black'
+      },
+      // style valid state
+      '.valid': {
+        color: 'green'
+      },
+      // style invalid state
+      '.invalid': {
+        color: 'red'
+      },
+      // Media queries
+      // Note that these apply to the iframe, not the root window.
+      '@media screen and (max-width: 400px)': {
+        input: {
+          color: 'orange'
+        }
+      }
+    }
+  });
+
+  TPDirect.card.onUpdate(function(update) {
+    const submitButton = document.getElementById('confirm-btn');
+    const ccNumberArea = document.getElementsByClassName('credit-card-number')[0];
+    // update.canGetPrime === true
+    // --> you can call TPDirect.card.getPrime()
+    if (update.canGetPrime) {
+      // Enable submit Button to get prime.
+      submitButton.removeAttribute('disabled');
+    } else {
+      // Disable submit Button to get prime.
+      submitButton.setAttribute('disabled', true);
+    }
+
+    // handle field input
+    const numberError = document.getElementById('cc-number-alert');
+    const expError = document.getElementById('cc-exp-alert');
+    const ccvError = document.getElementById('ccv-alert');
+    if (update.status.number === 2) {
+      numberError.style.display = 'block';
+    } else if (update.status.number === 0) {
+      numberError.style.display = 'none';
+    } else {
+      numberError.style.display = 'none';
+    }
+
+    if (update.status.expiry === 2) {
+      expError.style.display = 'block';
+    } else if (update.status.expiry === 0) {
+      expError.style.display = 'none';
+    } else {
+      expError.style.display = 'none';
+    }
+
+    if (update.status.ccv === 2) {
+      ccvError.style.display = 'block';
+    } else if (update.status.ccv === 0) {
+      ccvError.style.display = 'none';
+    } else {
+      ccvError.style.display = 'none';
+    }
+  });
+};
+tapPay();

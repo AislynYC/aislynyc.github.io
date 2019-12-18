@@ -135,21 +135,18 @@
           <div class="section-title">付款資料</div>
           <div class="credit-card-number input-group">
             <label for="card-number">信用卡號碼</label>
-            <input
-              type="text"
-              name="card-number"
-              id="card-number"
-              maxlength="22"
-              placeholder="**** **** **** ****"
-            />
+            <div class="tpfield" id="card-number"></div>
+            <div class="cc-alert" id="cc-number-alert">請正確填寫卡號</div>
           </div>
           <div class="credit-card-exp input-group">
             <label for="card-exp">有效期限</label>
-            <input type="text" name="card-exp" id="card-exp" placeholder="MM / YY" />
+            <div class="tpfield" id="card-expiration-date"></div>
+            <div class="cc-alert" id="cc-exp-alert">請正確填寫卡片效期</div>
           </div>
           <div class="credit-card-ccv input-group">
             <label for="card-ccv">安全碼</label>
-            <input type="text" name="card-ccv" id="card-ccv" placeholder="ccv" />
+            <div class="tpfield" id="card-ccv"></div>
+            <div class="cc-alert" id="ccv-alert">請正確填寫安全碼</div>
           </div>
         </div>
         <!-- CART - PAYMENT FORM End -->
@@ -176,7 +173,7 @@
               </div>
             </div>
           </div>
-          <div class="confirm-btn">確認付款</div>
+          <div id="confirm-btn">確認付款</div>
         </div>
         <!-- CART - CONFIRM SECTION  End -->
       </div>
@@ -218,6 +215,7 @@
         </div>
       </div>
     </div>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
     <script src="../js/cart.js"></script>
   </body>
 </html>

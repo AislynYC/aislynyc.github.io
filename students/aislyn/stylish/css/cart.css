@@ -147,7 +147,7 @@ input[type='text'] {
 .calc-result:nth-child(2) {
   border-bottom: 1px solid black;
 }
-.confirm-btn {
+#confirm-btn {
   position: absolute;
   bottom: 0;
   color: white;
@@ -158,8 +158,22 @@ input[type='text'] {
   text-align: center;
   line-height: 30px;
   letter-spacing: 3.2px;
+  cursor: pointer;
+}
+/************==== Tap Pay =====***********/
+
+.tpfield {
+  border: 1px solid #979797;
+  border-radius: 8px;
+  cursor: text;
+  height: 30px;
 }
 
+.cc-alert {
+  color: red;
+  font-size: 14px;
+  display: none;
+}
 /************==== Media Queries =====***********/
 @media (min-width: 560px) {
   .content-area {
@@ -215,13 +229,16 @@ input[type='text'] {
   .calc {
     width: 40%;
   }
-  .confirm-btn {
+  #confirm-btn {
     width: 40%;
     position: absolute;
     right: 0;
   }
 
   input[type='text'] {
+    width: 60%;
+  }
+  .tpfield {
     width: 60%;
   }
   #time-selections {
