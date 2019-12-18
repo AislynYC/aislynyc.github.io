@@ -177,10 +177,9 @@ input[type='text'] {
     border: 1px solid #979797;
     padding: 30px;
   }
-  .section-title {
+
+  #cart-main-title {
     display: flex;
-  }
-  #cart-title {
     border: none;
   }
   #cart-title {
