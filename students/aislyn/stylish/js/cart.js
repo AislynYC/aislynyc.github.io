@@ -170,7 +170,7 @@ const renderSelProducts = (variant, data) => {
   let total = 0;
 
   for (let i = 0; i < subTotals.length; i++) {
-    total += parseInt(subTotal.innerHTML);
+    total += parseInt(subTotals[i].innerHTML);
   }
 
   totalPriceSpan.innerHTML = total;
