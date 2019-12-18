@@ -122,7 +122,7 @@ input[type='text'] {
 
 .confirm-section {
   position: relative;
-  height: 250px;
+  height: 320px;
 }
 .calc {
   position: absolute;
@@ -140,10 +140,13 @@ input[type='text'] {
   display: flex;
   justify-content: space-between;
   line-height: 30px;
-  margin-bottom: 15px;
+  margin: 30px 0;
   font-size: 16px;
 }
 
+.calc-result:nth-child(2) {
+  border-bottom: 1px solid black;
+}
 .confirm-btn {
   position: absolute;
   bottom: 0;
@@ -176,6 +179,8 @@ input[type='text'] {
   }
   .section-title {
     display: flex;
+  }
+  #cart-title {
     border: none;
   }
   #cart-title {
@@ -208,11 +213,20 @@ input[type='text'] {
   .list-label {
     display: none;
   }
-
+  .calc {
+    width: 40%;
+  }
   .confirm-btn {
-    width: 60%;
+    width: 40%;
     position: absolute;
     right: 0;
+  }
+
+  input[type='text'] {
+    width: 60%;
+  }
+  #time-selections {
+    width: 60%;
   }
 }
 
