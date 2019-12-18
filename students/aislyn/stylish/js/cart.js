@@ -223,7 +223,6 @@ listDiv.addEventListener('change', e => {
   while (targetElement !== null) {
     if (targetElement.matches('.qty-select')) {
       let productCode = targetElement.getAttribute('product-code');
-      console.log(cart[productCode].qty);
       cart[productCode].qty = targetElement.options[targetElement.selectedIndex].value;
       listDiv.innerHTML = '';
       checkCart();
@@ -339,6 +338,7 @@ const tapPay = () => {
   });
 
   submitButton.addEventListener('click', event => {
+    event.preventDefault();
     const deliveryCountrySel = document.getElementById('delivery-country');
     const deliveryCountryValue =
       deliveryCountrySel.options[deliveryCountrySel.selectedIndex].innerHTML;
@@ -354,67 +354,76 @@ const tapPay = () => {
     const recipientAddress = document.getElementById('address-input');
     const timePrefer = document.querySelector('input[name="prefer-time"]:checked').value;
 
-    let prime = '';
-    let order = {
-      shipping: {country: deliveryCountryValue, service: deliveryServiceValue},
-      payment: 'credit_card',
-      subtotal: totalPrice,
-      freight: freightFee,
-      total: finalPrice,
-      recipient: {
-        name: recipientName.value,
-        phone: recipientPhone.value,
-        email: recipientEmail.value,
-        address: recipientAddress.value,
-        time: timePrefer
-      }
-    };
-    let cartList = Object.values(cart);
-
-    event.preventDefault();
     // 取得 TapPay Fields 的 status
     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
 
-    // 確認是否可以 getPrime
+    // Data Validation
     if (tappayStatus.canGetPrime === false) {
       alert('請確實輸入信用卡資訊');
       return;
     }
+    if (!recipientName.value) {
+      alert('請輸入訂購人姓名');
+    } else if (!recipientPhone.value) {
+      ('請輸入訂購人電話');
+    } else if (!recipientEmail.value) {
+      ('請輸入訂購人Email');
+    } else if (!recipientAddress.value) {
+      ('請輸入訂購地址');
+    } else {
+      // Get prime
+      TPDirect.card.getPrime(result => {
+        if (result.status !== 0) {
+          alert('付款失敗' + result.msg);
+        } else {
+          // Compose Submit Data
+          let order = {
+            shipping: {
+              country: deliveryCountryValue,
+              service: deliveryServiceValue
+            },
+            payment: 'credit_card',
+            subtotal: totalPrice.innerHTML,
+            freight: freightFee.innerHTML,
+            total: finalPrice.innerHTML,
+            recipient: {
+              name: recipientName.value,
+              phone: recipientPhone.value,
+              email: recipientEmail.value,
+              address: recipientAddress.value,
+              time: timePrefer
+            }
+          };
+          let cartList = Object.values(cart);
+          let submitData = {
+            prime: result.card.prime,
+            order: order,
+            list: cartList
+          };
 
-    // Get prime
-    TPDirect.card.getPrime(result => {
-      if (result.status !== 0) {
-        alert('付款失敗' + result.msg);
-        return;
-      }
-      alert('付款成功' + result.card.prime);
-      prime = result.card.prime;
-      // send prime to your server, to pay with Pay by Prime API .
-      // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
-    });
+          // POST Submit Data
+          const postOrderData = () => {
+            const xhr = new XMLHttpRequest();
+            let url = host + '/api/1.0/order/checkout';
 
-    let submitData = {
-      prime: prime,
-      order: order,
-      list: cartList
-    };
-
-    const postOrderData = callback => {
-      const xhr = new XMLHttpRequest();
-      let url = host + '/order/checkout';
-
-      xhr.open('POST', url);
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            callback(xhr.responseText);
-          } else {
-            alert(`[${xhr.status}] ${xhr.statusText}`);
-          }
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = response => {
+              if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                  alert('訂單送出，感謝您的訂購');
+                } else {
+                  alert(`[${xhr.status}] ${xhr.statusText}`);
+                  console.log(response);
+                }
+              }
+            };
+            xhr.send(JSON.stringify(submitData));
+          };
+          postOrderData();
         }
-      };
-      xhr.send();
-    };
+      });
+    }
   });
 };
 tapPay();
