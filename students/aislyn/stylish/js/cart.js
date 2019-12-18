@@ -235,6 +235,7 @@ listDiv.addEventListener('change', e => {
 // TapPay
 
 const tapPay = () => {
+  const submitButton = document.getElementById('confirm-btn');
   TPDirect.setupSDK(
     12348,
     'app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF',
@@ -298,8 +299,6 @@ const tapPay = () => {
   });
 
   TPDirect.card.onUpdate(function(update) {
-    const submitButton = document.getElementById('confirm-btn');
-    const ccNumberArea = document.getElementsByClassName('credit-card-number')[0];
     // update.canGetPrime === true
     // --> you can call TPDirect.card.getPrime()
     if (update.canGetPrime) {
@@ -337,6 +336,85 @@ const tapPay = () => {
     } else {
       ccvError.style.display = 'none';
     }
+  });
+
+  submitButton.addEventListener('click', event => {
+    const deliveryCountrySel = document.getElementById('delivery-country');
+    const deliveryCountryValue =
+      deliveryCountrySel.options[deliveryCountrySel.selectedIndex].innerHTML;
+    const deliveryServiceSel = document.getElementById('delivery-service');
+    const deliveryServiceValue =
+      deliveryServiceSel.options[deliveryServiceSel.selectedIndex].innerHTML;
+    const totalPrice = document.getElementById('total-price');
+    const freightFee = document.getElementById('freight-fee');
+    const finalPrice = document.getElementById('final-price');
+    const recipientName = document.getElementById('name-input');
+    const recipientPhone = document.getElementById('phone-input');
+    const recipientEmail = document.getElementById('email-input');
+    const recipientAddress = document.getElementById('address-input');
+    const timePrefer = document.querySelector('input[name="prefer-time"]:checked').value;
+
+    let prime = '';
+    let order = {
+      shipping: {country: deliveryCountryValue, service: deliveryServiceValue},
+      payment: 'credit_card',
+      subtotal: totalPrice,
+      freight: freightFee,
+      total: finalPrice,
+      recipient: {
+        name: recipientName.value,
+        phone: recipientPhone.value,
+        email: recipientEmail.value,
+        address: recipientAddress.value,
+        time: timePrefer
+      }
+    };
+    let cartList = Object.values(cart);
+
+    event.preventDefault();
+    // 取得 TapPay Fields 的 status
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+    // 確認是否可以 getPrime
+    if (tappayStatus.canGetPrime === false) {
+      alert('請確實輸入信用卡資訊');
+      return;
+    }
+
+    // Get prime
+    TPDirect.card.getPrime(result => {
+      if (result.status !== 0) {
+        alert('付款失敗' + result.msg);
+        return;
+      }
+      alert('付款成功' + result.card.prime);
+      prime = result.card.prime;
+      // send prime to your server, to pay with Pay by Prime API .
+      // Pay By Prime Docs: https://docs.tappaysdk.com/tutorial/zh/back.html#pay-by-prime-api
+    });
+
+    let submitData = {
+      prime: prime,
+      order: order,
+      list: cartList
+    };
+
+    const postOrderData = callback => {
+      const xhr = new XMLHttpRequest();
+      let url = host + '/order/checkout';
+
+      xhr.open('POST', url);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            callback(xhr.responseText);
+          } else {
+            alert(`[${xhr.status}] ${xhr.statusText}`);
+          }
+        }
+      };
+      xhr.send();
+    };
   });
 };
 tapPay();
