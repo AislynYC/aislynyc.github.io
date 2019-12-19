@@ -12,19 +12,14 @@ if (localStorage['cart'] !== undefined) {
 
 // Update Cart Badge
 const updateCartBadge = () => {
-  if (cart !== {}) {
-    let cartCount = 0;
+  let cartCount = 0;
 
-    for (let [key, value] of Object.entries(cart)) {
-      cartCount += parseInt(value.qty);
-    }
-
-    cartQtyWeb.innerHTML = cartCount;
-    cartQtyMobile.innerHTML = cartCount;
-  } else {
-    cartQtyWeb.innerHTML = '0';
-    cartQtyMobile.innerHTML = '0';
+  for (let [key, value] of Object.entries(cart)) {
+    cartCount += parseInt(value.qty);
   }
+
+  cartQtyWeb.innerHTML = cartCount;
+  cartQtyMobile.innerHTML = cartCount;
 };
 
 // Get Product Details
@@ -59,6 +54,9 @@ const renderSelProducts = (variant, data) => {
   };
 
   let stock = checkVariantStock(variant.colorCode, variant.size);
+
+  // Clear Product List
+  listDiv.innerHTML = '';
 
   // Create Product List
   const productList = document.createElement('div');
@@ -175,31 +173,39 @@ const renderSelProducts = (variant, data) => {
 
   totalPriceSpan.innerHTML = total;
   finalPriceSpan.innerHTML = total + parseInt(freightFeeSpan.innerHTML);
-
-  // Store Updated Cart to Local Storage
-  localStorage['cart'] = JSON.stringify(cart);
 };
 
 // Check Cart Data
 const checkCart = () => {
-  Object.keys(cart).forEach(productCode => {
-    const selProductDtls = cart[productCode];
-    const productId = selProductDtls.id;
-    const variant = {
-      productCode: productCode,
-      colorName: selProductDtls.color.name,
-      colorCode: selProductDtls.color.code,
-      size: selProductDtls.size,
-      qty: selProductDtls.qty
-    };
-    getProductDetail(productId, variant, (variant, response) => {
-      renderSelProducts(variant, response);
+  console.log(cart);
+  if (Object.keys(cart).length !== 0) {
+    Object.keys(cart).forEach(productCode => {
+      const selProductDtls = cart[productCode];
+      const productId = selProductDtls.id;
+      const variant = {
+        productCode: productCode,
+        colorName: selProductDtls.color.name,
+        colorCode: selProductDtls.color.code,
+        size: selProductDtls.size,
+        qty: selProductDtls.qty
+      };
+
+      getProductDetail(productId, variant, (variant, response) => {
+        renderSelProducts(variant, response);
+      });
     });
-  });
+  } else {
+    console.log('yo');
+    const list = document.querySelector('.list');
+    list.innerHTML = '您的購物車內沒有商品，快去選購商品吧！';
+  }
+  // Store Updated Cart to Local Storage
+  localStorage['cart'] = JSON.stringify(cart);
   // Update Cart Badge while qty change
   updateCartBadge();
 };
 
+// initial cart list
 checkCart();
 
 // Remove from Cart Feature
@@ -209,7 +215,6 @@ listDiv.addEventListener('click', e => {
     if (targetElement.matches('.remove-btn')) {
       let productCode = targetElement.getAttribute('product-code');
       delete cart[productCode];
-      listDiv.innerHTML = '';
       checkCart();
     }
     targetElement = targetElement.parentElement;
@@ -224,7 +229,6 @@ listDiv.addEventListener('change', e => {
     if (targetElement.matches('.qty-select')) {
       let productCode = targetElement.getAttribute('product-code');
       cart[productCode].qty = parseInt(targetElement.options[targetElement.selectedIndex].value);
-      listDiv.innerHTML = '';
       checkCart();
     }
     targetElement = targetElement.parentElement;
@@ -339,12 +343,6 @@ const tapPay = () => {
 
   submitButton.addEventListener('click', event => {
     event.preventDefault();
-    const deliveryCountrySel = document.getElementById('delivery-country');
-    const deliveryCountryValue =
-      deliveryCountrySel.options[deliveryCountrySel.selectedIndex].innerHTML;
-    const deliveryServiceSel = document.getElementById('delivery-service');
-    const deliveryServiceValue =
-      deliveryServiceSel.options[deliveryServiceSel.selectedIndex].innerHTML;
     const totalPrice = document.getElementById('total-price');
     const freightFee = document.getElementById('freight-fee');
     const finalPrice = document.getElementById('final-price');
@@ -358,11 +356,10 @@ const tapPay = () => {
     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
 
     // Data Validation
-    if (tappayStatus.canGetPrime === false) {
-      alert('請確實輸入信用卡資訊');
-      return;
-    }
-    if (!recipientName.value) {
+
+    if (Object.keys(cart).length === 0) {
+      alert('您的購物車內沒有商品喔！快去選購商品吧！');
+    } else if (!recipientName.value) {
       alert('請輸入訂購人姓名');
     } else if (!recipientPhone.value) {
       ('請輸入訂購人電話');
@@ -370,6 +367,9 @@ const tapPay = () => {
       ('請輸入訂購人Email');
     } else if (!recipientAddress.value) {
       ('請輸入訂購地址');
+    } else if (tappayStatus.canGetPrime === false) {
+      alert('請確實輸入信用卡資訊');
+      return;
     } else {
       // Get prime
       TPDirect.card.getPrime(result => {

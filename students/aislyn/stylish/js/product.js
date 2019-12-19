@@ -16,18 +16,13 @@ if (localStorage['cart'] !== undefined) {
 
 // Update Cart Badge
 const updateCartBadge = () => {
-  if (cart !== {}) {
-    let cartCount = 0;
-    for (let [key, value] of Object.entries(cart)) {
-      cartCount += parseInt(value.qty);
-    }
-
-    cartQtyWeb.innerHTML = cartCount;
-    cartQtyMobile.innerHTML = cartCount;
-  } else {
-    cartQtyWeb.innerHTML = '0';
-    cartQtyMobile.innerHTML = '0';
+  let cartCount = 0;
+  for (let [key, value] of Object.entries(cart)) {
+    cartCount += parseInt(value.qty);
   }
+
+  cartQtyWeb.innerHTML = cartCount;
+  cartQtyMobile.innerHTML = cartCount;
 };
 updateCartBadge();
 
