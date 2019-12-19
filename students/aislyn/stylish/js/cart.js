@@ -417,7 +417,8 @@ const tapPay = () => {
                   alert('訂單送出，感謝您的訂購');
                   getLocalStorage();
                   checkCart();
-                  window.location.replace('./thank.html');
+                  const orderNumber = JSON.parse(xhr.responseText).data.number;
+                  window.location.replace(`./thank.html?order=${orderNumber}`);
                 } else {
                   alert(`[${xhr.status}] ${xhr.statusText}`);
                 }
