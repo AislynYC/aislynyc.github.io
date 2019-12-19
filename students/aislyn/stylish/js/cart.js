@@ -4,11 +4,14 @@ const cartQtyMobile = document.getElementsByClassName('cart-qty')[1];
 const listDiv = document.getElementsByClassName('list')[0];
 
 // Get Cart Data from Local Storage
-if (localStorage['cart'] !== undefined) {
-  cart = JSON.parse(localStorage['cart']);
-} else {
-  cart = {};
-}
+const getLocalStorage = () => {
+  if (localStorage['cart'] !== undefined) {
+    cart = JSON.parse(localStorage['cart']);
+  } else {
+    cart = {};
+  }
+};
+getLocalStorage();
 
 // Update Cart Badge
 const updateCartBadge = () => {
@@ -403,13 +406,15 @@ const tapPay = () => {
 
             xhr.open('POST', url);
             xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onreadystatechange = response => {
+            xhr.onreadystatechange = () => {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
+                  localStorage.removeItem('cart');
                   alert('訂單送出，感謝您的訂購');
+                  getLocalStorage();
+                  checkCart();
                 } else {
                   alert(`[${xhr.status}] ${xhr.statusText}`);
-                  console.log(response);
                 }
               }
             };
