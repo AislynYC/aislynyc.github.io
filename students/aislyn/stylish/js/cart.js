@@ -228,7 +228,9 @@ listDiv.addEventListener('change', e => {
   while (targetElement !== null) {
     if (targetElement.matches('.qty-select')) {
       let productCode = targetElement.getAttribute('product-code');
-      cart[productCode].qty = parseInt(targetElement.options[targetElement.selectedIndex].value);
+      cart[productCode].qty = parseInt(
+        targetElement.options[targetElement.selectedIndex].value
+      );
       checkCart();
     }
     targetElement = targetElement.parentElement;
@@ -413,6 +415,7 @@ const tapPay = () => {
                   alert('訂單送出，感謝您的訂購');
                   getLocalStorage();
                   checkCart();
+                  window.location.replace('./thank.html');
                 } else {
                   alert(`[${xhr.status}] ${xhr.statusText}`);
                 }
