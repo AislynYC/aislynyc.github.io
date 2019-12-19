@@ -1,7 +1,9 @@
 .content-area {
   width: 90%;
-  margin: 100px auto 0;
+  margin: 0 auto;
   color: #3f3a3a;
+
+  margin-top: 99px;
 }
 
 label,
@@ -177,7 +179,7 @@ input[type='text'] {
 /************==== Media Queries =====***********/
 @media (min-width: 560px) {
   .content-area {
-    margin-top: 20px;
+    margin-top: 99px;
   }
   .img-info-wrap {
     width: 90%;
@@ -185,7 +187,7 @@ input[type='text'] {
 }
 @media (min-width: 768px) {
   .content-area {
-    margin-top: 50px;
+    margin-top: 140px;
   }
   .list {
     border: 1px solid #979797;
