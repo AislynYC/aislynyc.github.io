@@ -7,6 +7,11 @@
     <title>Stylish</title>
     <link rel="stylesheet" href="../css/reset.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Tangerine:700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/thank.css" />
   </head>
 
   <body>
@@ -54,8 +59,14 @@
       </header>
       <!-- PRODUCT-Detail Start -->
       <div class="content-area">
-        <h2>感謝您的購買，訂單已送出</h2>
-        <h3>訂購編號為：</h3>
+        <div id="thank-msg">
+          <div id="thank-you">Thank you</div>
+          <h2>您的訂單已送出，感謝您的購買！</h2>
+          <h3>訂購編號為：<span id="order-number"></span></h3>
+
+          <h3>如有任何問題，歡迎與我們聯絡。</h3>
+          <button id="continue-btn">繼續購買</button>
+        </div>
       </div>
       <!-- PRODUCT-Detail End -->
       <div class="mobile-tool">
@@ -79,24 +90,24 @@
           </div>
         </a>
       </div>
-      <div class="main-footer">
-        <div class="wrap">
-          <ul>
-            <li><a href="#">關於 Stylish</a></li>
-            <li><a href="#">服務條款</a></li>
-            <li><a href="#">隱私政策</a></li>
-            <li><a href="#">聯絡我們</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-          <div class="external-link">
-            <img class="external-logo" src="../images/line.png" alt="Line" />
-            <img class="external-logo" src="../images/twitter.png" alt="Twitter" />
-            <img class="external-logo" src="../images/facebook.png" alt="Facebook" />
-          </div>
+    </div>
+    <div class="main-footer">
+      <div class="wrap">
+        <ul>
+          <li><a href="#">關於 Stylish</a></li>
+          <li><a href="#">服務條款</a></li>
+          <li><a href="#">隱私政策</a></li>
+          <li><a href="#">聯絡我們</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+        <div class="external-link">
+          <img class="external-logo" src="../images/line.png" alt="Line" />
+          <img class="external-logo" src="../images/twitter.png" alt="Twitter" />
+          <img class="external-logo" src="../images/facebook.png" alt="Facebook" />
         </div>
-        <div class="copyright">
-          <p>&copy; 2018. All rights reserved.</p>
-        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2018. All rights reserved.</p>
       </div>
     </div>
 

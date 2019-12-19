@@ -4,6 +4,7 @@ html {
 .container {
   width: 100%;
   margin: 0 auto;
+  min-height: calc(100vh - 315px);
 }
 
 /***************  HEADER ***************/
@@ -210,7 +211,7 @@ html {
   margin-top: 99px;
 }
 .row {
-  margin: 0 auto;
+  margin: 0 auto 30px;
   width: 86.7%;
   display: flex;
   flex-flow: wrap;
@@ -296,7 +297,6 @@ html {
 .main-footer {
   padding-top: 23px;
   padding-bottom: 13px;
-  margin-top: 30px;
   margin-bottom: 60px;
 }
 
@@ -376,6 +376,10 @@ html {
 @media (min-width: 1024px) {
   html {
     font-size: 16px;
+  }
+
+  .container {
+    min-height: calc(100vh - 247px);
   }
 
   .content-area {
