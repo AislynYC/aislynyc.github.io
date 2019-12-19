@@ -68,8 +68,9 @@ const renderSelProducts = (variant, data) => {
   listDiv.appendChild(productList);
   productList.appendChild(productItem);
 
-  const imgInfoWrap = document.createElement('div');
+  const imgInfoWrap = document.createElement('a');
   imgInfoWrap.className = 'img-info-wrap';
+  imgInfoWrap.setAttribute('href', `./product.html?id=${variant.id}`);
   productItem.appendChild(imgInfoWrap);
 
   // Create Product Image
@@ -185,6 +186,7 @@ const checkCart = () => {
       const productId = selProductDtls.id;
       const variant = {
         productCode: productCode,
+        id: productId,
         colorName: selProductDtls.color.name,
         colorCode: selProductDtls.color.code,
         size: selProductDtls.size,
