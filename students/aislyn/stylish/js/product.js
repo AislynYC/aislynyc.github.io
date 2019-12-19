@@ -158,6 +158,22 @@ const renderProductPage = data => {
           break;
         }
       }
+
+      // --- reset to default qty while switching focus of color option
+      resetQtyPanel();
+      // --- update size out of stock while switching focus of color option
+      sizeBoxesArray.forEach(size => {
+        const activeColor = document.querySelector('.color-area>.options>.active');
+        size.classList.remove('out-of-stock');
+        if (
+          checkVariantStock(
+            activeColor.attributes.code.value,
+            size.attributes.code.value
+          ) === 0
+        ) {
+          size.classList.add('out-of-stock');
+        }
+      });
     },
     true
   );
@@ -212,71 +228,65 @@ const renderProductPage = data => {
         }
         target.classList.add('active');
       }
+      resetQtyPanel();
     },
     true
   );
 
-  // Check Available Stock
-  const checkAvailableStock = () => {
+  // Reset quantity number to 1 and
+  // change quantity limitation according to available stock
+  const qtyNumber = document.getElementById('qty-number');
+  let availableStock = 0;
+  let orderQty = 1;
+  const resetQtyPanel = () => {
+    // Reset available quantity according to available stock
     const activeColor = document.querySelector('.color-area>.options>.active');
     const activeSize = document.querySelector('.size-area>.options>.active');
-    return checkVariantStock(activeColor.attributes.code.value, activeSize.attributes.code.value);
+    availableStock = checkVariantStock(
+      activeColor.attributes.code.value,
+      activeSize.attributes.code.value
+    );
+
+    // --- set default value
+    orderQty = 1;
+    qtyNumber.innerHTML = orderQty;
   };
-  let availableStock = checkAvailableStock();
+  resetQtyPanel();
 
   // Plus and Minus Button for ordering
 
   const minusBtn = document.getElementById('qty-minus-btn');
   const plusBtn = document.getElementById('qty-plus-btn');
-  const qtyNumber = document.getElementById('qty-number');
-  // --- set default value
-  let orderQty = 1;
-  qtyNumber.innerHTML = orderQty;
-  // --- click event for Minus button
-  minusBtn.addEventListener('click', () => {
-    orderQty--;
-    if (orderQty <= 1) {
-      orderQty = 1;
-    }
-    qtyNumber.innerHTML = orderQty;
-  });
-  // --- click event for Plus button
-  plusBtn.addEventListener('click', () => {
-    orderQty++;
-    if (orderQty > availableStock) {
-      orderQty = availableStock;
-    }
-    qtyNumber.innerHTML = orderQty;
-  });
 
-  // Change Quantity Limitation According to Available Stock
-  colorBoxesArray.forEach(item => {
-    item.addEventListener('click', () => {
-      const activeColor = document.querySelector('.color-area>.options>.active');
-      // --- reset to default qty while switching focus of color option
-      orderQty = 1;
-      qtyNumber.innerHTML = orderQty;
+  const qtyController = () => {
+    // --- click event for Minus button
 
-      // --- update size out of stock while switching focus of color option
-      sizeBoxesArray.forEach(size => {
-        size.classList.remove('out-of-stock');
-        if (
-          checkVariantStock(activeColor.attributes.code.value, size.attributes.code.value) === 0
-        ) {
-          size.classList.add('out-of-stock');
-        }
-      });
-    });
-  });
-
-  sizeBoxesArray.forEach(item => {
-    item.addEventListener('click', () => {
-      availableStock = checkAvailableStock();
-      // --- reset to default qty while switching focus of size option
-      orderQty = 1;
+    minusBtn.addEventListener('click', () => {
+      orderQty--;
+      if (orderQty <= 1) {
+        orderQty = 1;
+      }
       qtyNumber.innerHTML = orderQty;
     });
-  });
+    // --- click event for Plus button
+    plusBtn.addEventListener('click', () => {
+      orderQty++;
+      if (orderQty > availableStock) {
+        orderQty = availableStock;
+      }
+      qtyNumber.innerHTML = orderQty;
+    });
+  };
+
+  qtyController();
+
+  // According to Available Stock
+  // colorBoxesArray.forEach(item => {
+  //   item.addEventListener('click', () => {
+  //     const activeColor = document.querySelector('.color-area>.options>.active');
+
+  //   });
+  // });
 
   // Product Description Rendering
   const descDiv = document.getElementsByClassName('desc')[0];
@@ -330,12 +340,12 @@ const addToCart = data => {
   // Add to Cart Clicking event
   addToCartBtn.addEventListener('click', () => {
     const qtyNumber = document.getElementById('qty-number');
-    const activeColorCode = document.querySelector('.color-area>.options>.active').attributes.code
-      .value;
-    const activeColorTitle = document.querySelector('.color-area>.options>.active').attributes.title
-      .value;
-    const activeSizeCode = document.querySelector('.size-area>.options>.active').attributes.code
-      .value;
+    const activeColorCode = document.querySelector('.color-area>.options>.active')
+      .attributes.code.value;
+    const activeColorTitle = document.querySelector('.color-area>.options>.active')
+      .attributes.title.value;
+    const activeSizeCode = document.querySelector('.size-area>.options>.active')
+      .attributes.code.value;
     let productCode = productDtls.id + activeColorCode + activeSizeCode;
 
     if (cart[productCode] === undefined) {
