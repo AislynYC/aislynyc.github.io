@@ -223,7 +223,7 @@ listDiv.addEventListener('change', e => {
   while (targetElement !== null) {
     if (targetElement.matches('.qty-select')) {
       let productCode = targetElement.getAttribute('product-code');
-      cart[productCode].qty = targetElement.options[targetElement.selectedIndex].value;
+      cart[productCode].qty = parseInt(targetElement.options[targetElement.selectedIndex].value);
       listDiv.innerHTML = '';
       checkCart();
     }
@@ -377,28 +377,26 @@ const tapPay = () => {
           alert('付款失敗' + result.msg);
         } else {
           // Compose Submit Data
+          let cartList = Object.values(cart);
           let order = {
-            shipping: {
-              country: deliveryCountryValue,
-              service: deliveryServiceValue
-            },
+            shipping: 'delivery',
             payment: 'credit_card',
-            subtotal: totalPrice.innerHTML,
-            freight: freightFee.innerHTML,
-            total: finalPrice.innerHTML,
+            subtotal: parseInt(totalPrice.innerHTML),
+            freight: parseInt(freightFee.innerHTML),
+            total: parseInt(finalPrice.innerHTML),
             recipient: {
               name: recipientName.value,
               phone: recipientPhone.value,
               email: recipientEmail.value,
               address: recipientAddress.value,
               time: timePrefer
-            }
+            },
+            list: cartList
           };
-          let cartList = Object.values(cart);
+
           let submitData = {
             prime: result.card.prime,
-            order: order,
-            list: cartList
+            order: order
           };
 
           // POST Submit Data

@@ -345,7 +345,7 @@ const addToCart = data => {
 
     if (cart[productCode] === undefined) {
       cart[productCode] = {
-        id: productDtls.id,
+        id: String(productDtls.id),
         name: productDtls.title,
         price: productDtls.price,
         color: {
