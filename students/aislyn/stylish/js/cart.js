@@ -55,9 +55,6 @@ const renderSelProducts = (variant, data) => {
 
   let stock = checkVariantStock(variant.colorCode, variant.size);
 
-  // Clear Product List
-  listDiv.innerHTML = '';
-
   // Create Product List
   const productList = document.createElement('div');
   productList.className = 'product-list';
@@ -177,7 +174,8 @@ const renderSelProducts = (variant, data) => {
 
 // Check Cart Data
 const checkCart = () => {
-  console.log(cart);
+  // Clear cart list
+  listDiv.innerHTML = '';
   if (Object.keys(cart).length !== 0) {
     Object.keys(cart).forEach(productCode => {
       const selProductDtls = cart[productCode];
@@ -195,7 +193,6 @@ const checkCart = () => {
       });
     });
   } else {
-    console.log('yo');
     const list = document.querySelector('.list');
     list.innerHTML = '您的購物車內沒有商品，快去選購商品吧！';
   }
