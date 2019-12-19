@@ -414,7 +414,6 @@ const tapPay = () => {
               if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                   localStorage.removeItem('cart');
-                  alert('訂單送出，感謝您的訂購');
                   getLocalStorage();
                   checkCart();
                   const orderNumber = JSON.parse(xhr.responseText).data.number;

@@ -19,6 +19,8 @@
   border-radius: 20px;
   margin-top: 20px;
   letter-spacing: 4px;
+  cursor: pointer;
+  outline: none;
 }
 
 @media (min-width: 680px) {
