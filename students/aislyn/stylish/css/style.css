@@ -9,6 +9,7 @@ html {
 /***************  HEADER ***************/
 .main-header {
   position: fixed;
+  top: 0;
   height: 99px;
   z-index: 2;
   background-color: white;
@@ -205,6 +206,9 @@ html {
 }
 
 /*************** Product-IMG Area ***************/
+.content-area {
+  margin-top: 99px;
+}
 .row {
   margin: 0 auto;
   width: 86.7%;
@@ -372,6 +376,10 @@ html {
 @media (min-width: 1024px) {
   html {
     font-size: 16px;
+  }
+
+  .content-area {
+    margin-top: 0;
   }
 
   .row {
