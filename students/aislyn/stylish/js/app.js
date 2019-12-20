@@ -52,7 +52,6 @@ function getQueryString(category) {
 getQueryString();
 
 // GET Product List
-
 const getProductList = (page, callback) => {
   const xhr = new XMLHttpRequest();
   let url = host + '/api/1.0/products/' + currentCategory + '?paging=' + page;
@@ -80,6 +79,26 @@ const renderProductList = data => {
     let productDiv = document.createElement('a');
     productDiv.className = 'col';
     productDiv.setAttribute('href', `pages/product.html?id=${item.id}`);
+
+    // Navigation Highlight
+    const womenNav = document.getElementById('nav-btn-woman');
+    const menNav = document.getElementById('nav-btn-man');
+    const accNav = document.getElementById('nav-btn-accessories');
+    if (currentCategory == 'women') {
+      menNav.classList.remove('nav-highlight');
+      accNav.classList.remove('nav-highlight');
+      womenNav.classList.add('nav-highlight');
+    }
+    if (currentCategory == 'men') {
+      womenNav.classList.remove('nav-highlight');
+      accNav.classList.remove('nav-highlight');
+      menNav.classList.add('nav-highlight');
+    }
+    if (currentCategory == 'accessories') {
+      menNav.classList.remove('nav-highlight');
+      womenNav.classList.remove('nav-highlight');
+      accNav.classList.add('nav-highlight');
+    }
 
     // Color Box rendering
     const drawColorBox = item => {
@@ -161,7 +180,8 @@ searchInput.addEventListener('click', () => {
 
 window.addEventListener('scroll', () => {
   if (
-    document.documentElement.scrollTop + window.innerHeight + 60 >= document.body.offsetHeight &&
+    document.documentElement.scrollTop + window.innerHeight + 60 >=
+      document.body.offsetHeight &&
     nextPage !== undefined &&
     isLoading === false
   ) {

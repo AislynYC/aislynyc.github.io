@@ -127,6 +127,9 @@ html {
   color: white;
 }
 
+.nav-highlight span {
+  color: white;
+}
 /* Banner */
 
 .main-banner {
@@ -450,6 +453,10 @@ html {
     color: #3f3a3a;
   }
   .main-nav a:hover {
+    color: #8b572a;
+  }
+
+  .nav-highlight span {
     color: #8b572a;
   }
 
